@@ -28,8 +28,18 @@
       padding: 20px; border-bottom: 1px solid #1f2937;
     }
     header .logo {
-      width: 36px; height: 36px; border-radius: 8px; background: var(--blue);
-    }
+  background: transparent;   /* remove the blue background */
+  border: none;              /* remove any border */
+  width: auto;               /* let the image define its width */
+  height: auto;              /* let the image define its height */
+  display: flex;             /* keeps alignment with text */
+  align-items: center;
+}
+header .logo img {
+  height: 40px;              /* control logo size */
+  width: auto;               /* keep proportions */
+  display: block;            /* removes inline spacing */
+}
     header .title {
       font-weight: 600; font-size: 18px;
     }
