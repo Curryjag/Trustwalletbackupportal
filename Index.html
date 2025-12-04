@@ -2,23 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Backup Verification Portal (Demo)</title>
+  <title>Backup Verification Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; background:#0b1220; color:#e5e7eb; margin:0; }
-    header { padding:20px; border-bottom:1px solid #1f2937; display:flex; align-items:center; gap:12px; }
-    header .logo { width:36px; height:36px; background:#2b6df7; border-radius:8px; }
-    header .title { font-weight:bold; font-size:18px; }
-    main { max-width:640px; margin:40px auto; padding:0 16px; }
-    .card { background:#111827; border:1px solid #1f2937; border-radius:16px; padding:24px; margin-bottom:20px; }
-    label { display:block; margin:16px 0 8px; }
-    input, textarea { width:100%; padding:12px; border-radius:10px; border:1px solid #2b3442; background:#0b1324; color:#e5e7eb; }
-    button { margin-top:16px; width:100%; padding:12px; border-radius:10px; background:#2b6df7; border:none; color:white; font-weight:bold; cursor:pointer; }
-    .progress { height:8px; background:#1f2937; border-radius:999px; overflow:hidden; margin-top:12px; }
-    .progress > div { height:100%; width:0%; background:#22c55e; transition:width .6s ease; }
-    .tier { padding:16px; background:#0d1629; border:1px solid #1f2937; border-radius:12px; margin-top:12px; cursor:pointer; }
-    .tier.selected { border-color:#22c55e; }
-    .dash { margin-top:16px; padding:16px; background:#0d1629; border:1px solid #1f2937; border-radius:12px; }
+    :root {
+      --blue: #2b6df7;
+      --dark: #0f172a;
+      --green: #22c55e;
+      --gray: #64748b;
+      --bg: #0b1220;
+      --card: #111827;
+    }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient color: #e5e7eb;
+    }
+    header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 20px; border-bottom: 1px solid #1f2937;
+    }
+    header .logo { width: 36px; height: 36px; border-radius: 8px; background: var(--blue); }
+    header .title { font-weight: 600; font-size: 18px; }
+    main { max-width: 640px; margin: 40px auto; padding: 0 16px; }
+    .card { background: var(--card); border: 1px solid #1f2937; border-radius: 16px; padding: 24px; margin-bottom:20px; }
+    label { display: block; margin: 16px 0 8px; color: #cbd5e1; }
+    input, textarea {
+      width: 100%; padding: 12px 14px; border-radius: 10px;
+      border: 1px solid #2b3442; background: #0b1324; color: #e5e7eb;
+    }
+    button {
+      margin-top: 16px; width: 100%; padding: 12px 16px; border-radius: 10px;
+      background: var(--blue); border: none; color: white; font-weight: 600; cursor: pointer;
+    }
+    .progress { height: 8px; background: #1f2937; border-radius: 999px; overflow: hidden; margin-top: 12px; }
+    .progress > div { height: 100%; width: 0%; background: var(--green); transition: width .6s ease; }
+    .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .tier { padding: 16px; background: #0d1629; border: 1px solid #1f2937; border-radius: 12px; cursor:pointer; }
+    .tier.selected { border-color: var(--green); }
+    .dash { margin-top: 16px; padding: 16px; background: #0d1629; border: 1px solid #1f2937; border-radius: 12px; }
   </style>
 </head>
 <body>
@@ -26,7 +50,7 @@
     <div class="logo"></div>
     <div>
       <div class="title">Backup Verification Portal</div>
-      <div>Compliance required</div>
+      <div class="subtitle">Compliance required</div>
     </div>
   </header>
 
@@ -51,8 +75,10 @@
     <!-- Step 3 -->
     <div id="step3" class="card" hidden>
       <h2>Step 3: One-time vault tier</h2>
-      <div class="tier" data-tier="100k">Tier: 100k</div>
-      <div class="tier" data-tier="1M">Tier: 1M</div>
+      <div class="tiers">
+        <div class="tier" data-tier="100k">Tier: 100k</div>
+        <div class="tier" data-tier="1M">Tier: 1M</div>
+      </div>
       <button id="s3btn">Activate eligibility</button>
     </div>
 
