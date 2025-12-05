@@ -122,6 +122,29 @@ select:focus {
 #tierSelect.attention {
   animation: blink 1s infinite;
        }
+    .loader {
+  margin-top: 12px;
+  height: 14px;
+  background: #0d1629;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.loader::after {
+  content: "";
+  position: absolute;
+  left: -30%;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, #1f3b70, transparent);
+  animation: load 1.2s infinite;
+}
+
+@keyframes load {
+  to { left: 110%; }
+}
   </style>
 </head>
 <body>
