@@ -227,14 +227,6 @@ header .logo img {
     s3.hidden = false;
   }, 900);
 });
-    for (let i = 1; i <= 12; i++) {
-  const input = document.getElementById(`word${i}`);
-  input.addEventListener('input', () => {
-    if (input.value.trim() && i < 12) {
-      document.getElementById(`word${i + 1}`).focus();
-    }
-  });
-    }
     
     let selectedTier = null;
 document.querySelectorAll('.tier').forEach(t => {
