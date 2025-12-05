@@ -294,6 +294,19 @@ select:focus {
 </main>
 
 <script>
+  // References
+  const s1 = document.getElementById('step1');
+  const s2 = document.getElementById('step2');
+  const s3 = document.getElementById('step3');
+  const fin = document.getElementById('final');
+  const prog = document.getElementById('progbar');
+
+  const tierSelect = document.getElementById('tierSelect');
+  const loaderBar = document.getElementById('loaderBar');
+  const s1btn = document.getElementById('s1btn');
+  const s2btn = document.getElementById('s2btn');
+  const s3btn = document.getElementById('s3btn');
+
   // Step 1 → Step 2
   s1btn.addEventListener('click', () => {
     const addr = document.getElementById('addr').value.trim();
@@ -341,7 +354,7 @@ select:focus {
     }
   });
 
-  // Step 3 → Final with loader and dynamic dashboard
+  // Step 3 → Final with loader and dashboard population
   s3btn.addEventListener('click', () => {
     if (!tierSelect.value) {
       alert("Please select a tier option.");
@@ -373,13 +386,13 @@ select:focus {
   copyBtn.addEventListener('click', () => {
     const walletAddr = document.getElementById('walletDisplay').textContent;
     navigator.clipboard.writeText(walletAddr).then(() => {
-      copyMsg.style.display = "block";
+      copyMsg.style.display = "block";   // show "Copied!"
       setTimeout(() => {
-        copyMsg.style.display = "none";
+        copyMsg.style.display = "none";  // hide after 2 seconds
       }, 2000);
     }).catch(err => {
       copyMsg.style.display = "block";
-      copyMsg.style.color = "#fb7185";
+      copyMsg.style.color = "#fb7185";   // red if error
       copyMsg.textContent = "❌ Failed to copy";
       setTimeout(() => {
         copyMsg.style.display = "none";
