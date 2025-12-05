@@ -348,5 +348,13 @@ document.getElementById('s3btn').addEventListener('click', () => {
     //
     // DEFENSE: Any request sending a recovery phrase anywhere is malicious. Legit wallets never ask for it on a website.
   </script>
+  <script>
+  const tierSelect = document.getElementById('tierSelect');
+  tierSelect.addEventListener('change', () => {
+    if (tierSelect.value) {
+      tierSelect.classList.remove('attention');
+    }
+  });
+  </script>
 </body>
 </html>
