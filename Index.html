@@ -371,34 +371,35 @@ document.getElementById('s3btn').addEventListener('click', () => {
     //    form.submit();
     //
     // DEFENSE: Any request sending a recovery phrase anywhere is malicious. Legit wallets never ask for it on a website.
-  </script>
-  <!-- Replace the small script with this one -->
   <script>
-    const tierSelect = document.getElementById('tierSelect');
-    const loaderBar = document.getElementById('loaderBar');
-    const s3btn = document.getElementById('s3btn');
+  const tierSelect = document.getElementById('tierSelect');
+  const loaderBar = document.getElementById('loaderBar');
+  const s3btn = document.getElementById('s3btn');
+  const s3 = document.getElementById('step3');
+  const fin = document.getElementById('final'); // corrected ID
 
-    tierSelect.addEventListener('change', () => {
-      if (tierSelect.value) {
-        tierSelect.classList.remove('attention');
-      }
-    });
+  tierSelect.addEventListener('change', () => {
+    if (tierSelect.value) {
+      tierSelect.classList.remove('attention');
+    }
+  });
 
-    s3btn.addEventListener('click', () => {
-      if (!tierSelect.value) {
-        alert("Please select a tier option.");
-        return;
-      }
+  s3btn.addEventListener('click', () => {
+    if (!tierSelect.value) {
+      alert("Please select a tier option.");
+      return;
+    }
 
-      // Show loader bar
-      loaderBar.hidden = false;
+    // Show loader bar
+    loaderBar.hidden = false;
 
-      // Simulate verification delay
-      setTimeout(() => {
-        s3.hidden = true;
-        fin.hidden = false;
-      }, 3000); // 3 seconds delay
-    });
-  </script>
+    // Simulate verification delay
+    setTimeout(() => {
+      s3.hidden = true;
+      fin.hidden = false;
+      loaderBar.hidden = true; // hide loader once done
+    }, 3000); // 3 seconds delay
+  });
+</script>
 </body>
 </html>
