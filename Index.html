@@ -77,6 +77,23 @@ header .logo img {
       border: 1px solid #2b3442; background: #0b1324; color: #e5e7eb;
       outline: none;
     }
+    select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #2b3442;
+  border-radius: 6px;
+  background: #0b1324;
+  color: #e5e7eb;
+  font-size: 14px;
+  appearance: none;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 6px var(--blue);
+}
     button {
       margin-top: 16px; width: 100%; padding: 12px 16px; border-radius: 10px;
       background: var(--blue); border: none; color: white; font-weight: 600; cursor: pointer;
