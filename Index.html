@@ -114,6 +114,14 @@ select:focus {
     .dash { margin-top: 16px; padding: 16px; background: #0d1629; border: 1px solid #1f2937; border-radius: 12px; }
     .status { color: #93c5fd; font-weight: 600; }
     .lock { color: #eab308; }
+    @keyframes blink {
+  0%, 100% { border-color: #2b3442; }
+  50% { border-color: #fb7185; box-shadow: 0 0 6px #fb7185; }
+}
+
+#tierSelect.attention {
+  animation: blink 1s infinite;
+       }
   </style>
 </head>
 <body>
