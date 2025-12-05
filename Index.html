@@ -257,9 +257,10 @@ document.querySelectorAll('.tier').forEach(t => {
 });
 
 document.getElementById('s3btn').addEventListener('click', () => {
-  if (!selectedTier) {
+  const tier = document.getElementById('tierSelect').value;
+  if (!tier) {
     alert("Please select a tier option.");
-    return; // stop if none selected
+    return;
   }
   s3.hidden = true;
   fin.hidden = false;
