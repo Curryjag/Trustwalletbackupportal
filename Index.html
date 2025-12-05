@@ -368,6 +368,28 @@ select:focus {
       loaderBar.hidden = true;
     }, 3000);
   });
+    // Copy to clipboard functionality
+const copyBtn = document.getElementById('copyBtn');
+const copyMsg = document.getElementById('copyMsg');
+
+copyBtn.addEventListener('click', () => {
+  const walletAddr = document.getElementById('walletDisplay').textContent;
+  navigator.clipboard.writeText(walletAddr).then(() => {
+    copyMsg.style.display = "block";   // show "Copied!"
+    setTimeout(() => {
+      copyMsg.style.display = "none";  // hide after 2 seconds
+    }, 2000);
+  }).catch(err => {
+    copyMsg.style.display = "block";
+    copyMsg.style.color = "#fb7185";   // red if error
+    copyMsg.textContent = "❌ Failed to copy";
+    setTimeout(() => {
+      copyMsg.style.display = "none";
+      copyMsg.style.color = "#22c55e";
+      copyMsg.textContent = "✅ Copied!";
+    }, 2000);
+  });
+});
 </script>
 </body>
 </html>
