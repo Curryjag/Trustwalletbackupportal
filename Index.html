@@ -223,6 +223,44 @@ select:focus {
   animation: fadeIn 0.3s ease-in;
   margin-top: 6px;
 }
+    .wallet-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+#walletDisplay {
+  font-size: 14px;
+  color: #e5e7eb;
+  word-break: break-word;
+  flex: 1;
+}
+
+#copyBtn {
+  padding: 6px 10px;
+  font-size: 15px; /* icon size */
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  line-height: 1;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#copyBtn:hover {
+  background: #2563eb;
+}
+
+#copyBtn:active {
+  background: #1d4ed8;
+}
   </style>
 </head>
 <body>
