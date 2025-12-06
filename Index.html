@@ -499,28 +499,27 @@ select:focus {
     }, 3000);
   });
 
-  // Copy to clipboard functionality
-  const copyBtn = document.getElementById('copyBtn');
-  const copyMsg = document.getElementById('copyMsg');
+  // Copy to clipboard functionality (toast version)
+const copyBtn = document.getElementById('copyBtn');
 
-  copyBtn.addEventListener('click', () => {
-    const walletAddr = document.getElementById('walletDisplay').textContent;
-    navigator.clipboard.writeText(walletAddr).then(() => {
-      copyMsg.style.display = "block";   // show "Copied!"
-      setTimeout(() => {
-        copyMsg.style.display = "none";  // hide after 2 seconds
-      }, 2000);
-    }).catch(err => {
-      copyMsg.style.display = "block";
-      copyMsg.style.color = "#fb7185";   // red if error
-      copyMsg.textContent = "❌ Failed to copy";
-      setTimeout(() => {
-        copyMsg.style.display = "none";
-        copyMsg.style.color = "#22c55e";
-        copyMsg.textContent = "✅ Copied!";
-      }, 2000);
-    });
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.style.opacity = "1";
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+  }, 2000); // fades out after 2 seconds
+}
+
+copyBtn.addEventListener('click', () => {
+  const walletAddr = document.getElementById('walletDisplay').textContent;
+  navigator.clipboard.writeText(walletAddr).then(() => {
+    showToast("Copied");
+  }).catch(() => {
+    showToast("Failed to copy");
   });
+});
 </script>
 </body>
 </html>
