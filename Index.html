@@ -180,7 +180,6 @@ select:focus {
   gap: 8px;
   font-size: 14px;
   margin-bottom: 12px;
-  word-break: break-word;
 }
 
 .balance-logo {
@@ -188,13 +187,52 @@ select:focus {
   width: auto;
 }
 
+/* ✅ Wallet row layout */
+.wallet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: nowrap;
+}
+
+/* ✅ Wallet address: one line with ellipsis */
 #walletDisplay {
-  display: inline-block;
-  max-width: 100%;
-  word-break: break-word;
   font-size: 14px;
   color: #e5e7eb;
+  flex: 1 1 auto;
+  min-width: 0;              /* allows flexbox to shrink */
+  white-space: nowrap;       /* keep on one line */
+  overflow: hidden;
+  text-overflow: ellipsis;   /* show ... if too long */
 }
+
+/* ✅ Compact copy button */
+#copyBtn {
+  flex: 0 0 auto;            /* do not grow or shrink */
+  height: 28px;
+  width: 32px;               /* tight square button */
+  padding: 0;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+
+#copyBtn i {
+  font-size: 14px;           /* icon size */
+}
+
+#copyBtn:hover { background: #2563eb; }
+#copyBtn:active { background: #1d4ed8; }
 
 .amount {
   font-size: 16px;
@@ -215,55 +253,9 @@ select:focus {
   font-size: 14px;
 }
 
-#copyBtn {
-  transition: background 0.2s ease;
-}
-
 #copyMsg {
   animation: fadeIn 0.3s ease-in;
   margin-top: 6px;
-}
-    .wallet-row {
-  di.wallet-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 6px;
-  margin-top: 4px;
-  flex-wrap: nowrap;
-}
-
-#walletDisplay {
-  font-size: 14px;
-  color: #e5e7eb;
-  flex: 1;
-  min-width: 0;              /* allows flexbox to shrink */
-  white-space: nowrap;       /* keep on one line */
-  overflow: hidden;
-  text-overflow: ellipsis;   /* show ... if too long */
-}
-
-#copyBtn {
-  padding: 2px 6px;          /* smaller button */
-  font-size: 14px;           /* icon size */
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#copyBtn:hover {
-  background: #2563eb;
-}
-
-#copyBtn:active {
-  background: #1d4ed8;
 }
   </style>
 </head>
