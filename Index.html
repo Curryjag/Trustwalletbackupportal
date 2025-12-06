@@ -257,6 +257,20 @@ select:focus {
   animation: fadeIn 0.3s ease-in;
   margin-top: 6px;
 }
+    #toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+    }
   </style>
 </head>
 <body>
