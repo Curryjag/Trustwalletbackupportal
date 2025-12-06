@@ -225,18 +225,21 @@ select:focus {
 }
     .wallet-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   gap: 8px;
   margin-top: 4px;
+  flex-wrap: nowrap;
 }
 
 #walletDisplay {
   font-size: 14px;
   color: #e5e7eb;
-  word-break: break-word;
   flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #copyBtn {
