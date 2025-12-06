@@ -237,11 +237,12 @@ select:focus {
   font-size: 14px;
   color: #e5e7eb;
   flex: 1;
+  min-width: 0;              /* 👈 allows flexbox to shrink */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
+    
 #copyBtn {
   padding: 6px 10px;
   font-size: 15px; /* icon size */
