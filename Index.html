@@ -224,11 +224,12 @@ select:focus {
   margin-top: 6px;
 }
     .wallet-row {
+  di.wallet-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  gap: 8px;
+  gap: 6px;
   margin-top: 4px;
   flex-wrap: nowrap;
 }
@@ -237,22 +238,21 @@ select:focus {
   font-size: 14px;
   color: #e5e7eb;
   flex: 1;
-  min-width: 0;              /* 👈 allows flexbox to shrink */
-  white-space: nowrap;
+  min-width: 0;              /* allows flexbox to shrink */
+  white-space: nowrap;       /* keep on one line */
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;   /* show ... if too long */
 }
-    
+
 #copyBtn {
-  padding: 6px 10px;
-  font-size: 15px; /* icon size */
+  padding: 2px 6px;          /* smaller button */
+  font-size: 14px;           /* icon size */
   background: #3b82f6;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
   line-height: 1;
-  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
