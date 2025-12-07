@@ -525,11 +525,15 @@ s3btn.addEventListener('click', () => {
     const tierChoice = tierMap[tierValue];
 
     // Populate dashboard
-    document.getElementById('walletDisplay').textContent = walletAddr;
-    document.getElementById('lockedBalance').textContent = `${tierChoice.locked} USDT 🔒 Locked`;
-    document.getElementById('depositMsg').textContent =
-      `⏳ Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
-  }, 3000);
+document.getElementById('walletDisplay').textContent = walletAddr;
+document.getElementById('lockedBalance').textContent = `${tierChoice.locked} USDT 🔒 Locked`;
+
+// New deposit message with glow
+const depositMsg = document.getElementById('depositMsg');
+depositMsg.textContent =
+  `⏳ Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
+depositMsg.classList.add('glow');
+}, 3000);
 });
 
   // Copy to clipboard functionality (toast version)
