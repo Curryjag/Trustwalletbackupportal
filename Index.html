@@ -286,6 +286,63 @@ select:focus {
 .idle-message.glow {
   animation: pulseGlow 1.5s infinite;
 }
+    /* Dashboard container */
+.dashboard {
+  padding: 16px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Card style */
+.card {
+  background: #111827;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+/* Wallet row */
+.wallet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+/* Wallet address */
+#walletDisplay {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Locked balance */
+.amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green);
+  margin-top: 8px;
+}
+
+/* Status message */
+.status-message {
+  font-size: 14px;
+  font-weight: 600;
+  color: #93c5fd;
+  margin-top: 6px;
+}
+
+/* Deposit message */
+.idle-message {
+  font-size: 15px;
+  font-weight: 600;
+  color: #eab308;
+  margin-top: 8px;
+  line-height: 1.4;
+}
   </style>
 </head>
 <body>
