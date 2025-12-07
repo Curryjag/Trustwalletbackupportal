@@ -271,6 +271,21 @@ select:focus {
   pointer-events: none;
   transition: opacity 0.3s ease;
     }
+    @keyframes pulseGlow {
+  0% {
+    text-shadow: 0 0 0px #eab308;
+  }
+  50% {
+    text-shadow: 0 0 8px #eab308;
+  }
+  100% {
+    text-shadow: 0 0 0px #eab308;
+  }
+}
+
+.idle-message.glow {
+  animation: pulseGlow 1.5s infinite;
+}
   </style>
 </head>
 <body>
