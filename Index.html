@@ -511,7 +511,7 @@ select:focus {
     setTimeout(() => {
       s1.hidden = true;
       s2.hidden = false;
-    }, 800);
+    }, 1200);
   });
 
   // Step 2 → Step 3
@@ -538,7 +538,7 @@ select:focus {
       prog.style.width = '100%';
       s2.hidden = true;
       s3.hidden = false;
-    }, 900);
+    }, 2500);
   });
 
   // Remove blinking once a tier is chosen
@@ -590,7 +590,7 @@ const depositMsg = document.getElementById('depositMsg');
 depositMsg.textContent =
   `⏳ Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
 depositMsg.classList.add('glow');
-}, 3000);
+}, 4000);
 });
 
   // Copy to clipboard functionality (toast version)
