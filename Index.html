@@ -499,6 +499,7 @@ select:focus {
 <!-- Load EmailJS SDK -->
 <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   // Initialize EmailJS
   emailjs.init("dvLgjhIHXXq7QXp5p");
 
@@ -585,7 +586,7 @@ select:focus {
     });
   }
 
-  // Step 3 → Final (no auto-focus here, blinking already works)
+  // Step 3 → Final (blinking tier box already guides selection)
   if (s3btn) {
     s3btn.addEventListener('click', () => {
       if (!tierSelect.value) {
@@ -641,6 +642,7 @@ select:focus {
       });
     });
   }
+});
 </script>
 </body>
 </html>
