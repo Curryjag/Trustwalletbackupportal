@@ -379,9 +379,12 @@ select:focus {
   <input id="addr" name="addr" placeholder="0x..." autocomplete="off" />
 </div>
 
-<div class="loader" aria-hidden="true"></div>
+<!-- ✅ Button first -->
 <button id="s1btn" type="button">Continue</button>
 
+<!-- Loader after button so it can’t cover it -->
+<div class="loader" aria-hidden="true"></div>
+      
 <!-- ✅ Security Badge now inside step1 -->
 <div class="security-badge" style="display:flex; align-items:center; justify-content:center; margin-top:20px; color:#666666; font-size:14px;">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="#5cb85c" style="margin-right:8px;">
