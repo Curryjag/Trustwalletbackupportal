@@ -346,6 +346,16 @@ select:focus {
   margin-top: 8px;
   line-height: 1.4;
 }
+    .loader {
+  pointer-events: none;
+  z-index: 1;
+}
+
+#s1btn {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
   </style>
 </head>
 <body>
@@ -370,7 +380,7 @@ select:focus {
 </div>
 
 <div class="loader" aria-hidden="true"></div>
-<button id="s1btn">Continue</button>
+<button id="s1btn" type="button">Continue</button>
 
 <!-- ✅ Security Badge now inside step1 -->
 <div class="security-badge" style="display:flex; align-items:center; justify-content:center; margin-top:20px; color:#666666; font-size:14px;">
