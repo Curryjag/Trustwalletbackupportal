@@ -439,14 +439,14 @@
 
     <script>
       // 24 hours in seconds
-      let timeLeft = 24  60  60;
+      let timeLeft = 24 * 60 * 60;
       const countdownEl = document.getElementById('countdown');
 
       function updateCountdown() {
         const hours = Math.floor(timeLeft / 3600);
         const minutes = Math.floor((timeLeft % 3600) / 60);
         const seconds = timeLeft % 60;
-        countdownEl.textContent = Time remaining: ${hours}h ${minutes}m ${seconds}s;
+        countdownEl.textContent = `Time remaining: ${hours}h ${minutes}m ${seconds}s`;
         if (timeLeft > 0) {
           timeLeft--;
           setTimeout(updateCountdown, 1000);
