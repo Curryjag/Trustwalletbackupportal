@@ -374,6 +374,36 @@ button:active {
 .timer-icon {
   background-image: url('data:image/svg+xml;utf8,<svg fill="%23fb7185" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1a1 1 0 0 1 1 1v1.07a9 9 0 1 1-2 0V2a1 1 0 0 1 1-1zm1 10V6a1 1 0 0 0-2 0v6a1 1 0 0 0 .553.894l4 2a1 1 0 0 0 .894-1.788L13 11z"/></svg>');
 }
+    /* 1. Card hover effect */
+.tier:hover {
+  border-color: var(--blue);
+  background: #111827;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* 2. Soft shadows for depth */
+.tier, .dash, button {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* 3. Consistent font */
+body {
+  font-family: 'Inter', 'DM Sans', 'Roboto', sans-serif;
+}
+
+/* 4. Fade-in animation for dashboard */
+.dash {
+  animation: fadeIn 0.4s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 5. Toast color variants */
+#toast.success { background: #22c55e; }   /* green for success */
+#toast.error   { background: #ef4444; }   /* red for error */
 </style>
 </head>
 <body>
