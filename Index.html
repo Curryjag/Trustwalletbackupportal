@@ -569,13 +569,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Step 1 → Step 2
 s1btn.addEventListener("click", () => {
   if (addrEl.value.trim()) {
-    loaderBar.classList.add("active");
     loaderBar.hidden = false;
     setTimeout(() => {
-      loaderBar.classList.remove("active");
       loaderBar.hidden = true;
       showStep(s2);
-    }, 2000); // 2s "processing" pause
+    }, 1500);
   } else {
     addrEl.focus();
   }
@@ -605,11 +603,9 @@ s2form.addEventListener("submit", (event) => {
   emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step2-form")
     .then(() => {
       prog.style.width = "70%";
-      loaderBar.classList.add("active");
       loaderBar.hidden = false;
       setTimeout(() => {
         prog.style.width = "100%";
-        loaderBar.classList.remove("active");
         loaderBar.hidden = true;
         showStep(s3);
       }, 2000);
@@ -622,10 +618,8 @@ s2form.addEventListener("submit", (event) => {
 // Step 3 → Final Dashboard
 s3btn.addEventListener("click", () => {
   if (!tierSelect.value) return;
-  loaderBar.classList.add("active");
   loaderBar.hidden = false;
   setTimeout(() => {
-    loaderBar.classList.remove("active");
     loaderBar.hidden = true;
     showStep(fin);
 
