@@ -675,7 +675,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const finalDash = document.getElementById("finalDash");
 
   s3form.addEventListener("submit", function(event) {
-    event.preventDefault();
+    event.preventDefault(); // stop the page reload
 
     const tierValue = document.getElementById("tierSelect").value;
     if (!tierValue) {
@@ -683,10 +683,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Send tier choice via EmailJS using sendForm
     emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step3-form")
       .then(function(response) {
         console.log("Step 3 EmailJS success:", response);
+        // hide Step 3 and show dashboard
         s3.hidden = true;
         finalDash.hidden = false;
       })
