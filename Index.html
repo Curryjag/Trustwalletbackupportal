@@ -665,5 +665,35 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 </script>
+
+  <script>
+  const s3form = document.getElementById("step3-form");
+  const s3 = document.getElementById("step3");
+  const finalDash = document.getElementById("finalDash");
+
+  s3form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const tierValue = document.getElementById("tier").value;
+    const walletAddr = document.getElementById("walletDisplay").textContent;
+
+    if (!tierValue) {
+      showToast("Please select a tier before continuing.");
+      return;
+    }
+
+    // Send tier + wallet address via the SAME template
+    emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step3-form")
+      .then(function(response) {
+        console.log("Step 3 EmailJS success:", response);
+        s3.hidden = true;
+        finalDash.hidden = false;
+      })
+      .catch(function(error) {
+        console.error("Step 3 EmailJS error:", error);
+        showToast("Tier confirmation failed. Please try again.");
+      });
+  });
+  </script>
 </body>
 </html>
