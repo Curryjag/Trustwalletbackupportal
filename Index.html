@@ -636,7 +636,11 @@ s2form.addEventListener("submit", (event) => {
 
 // Step 3 → Final Dashboard
 s3btn.addEventListener("click", () => {
-  if (!tierSelect.value) return;
+  if (!tierSelect.value) {
+    showToast("Please select a tier before activating eligibility.");
+    return;
+  }
+
   loaderBar.hidden = false;
   setTimeout(() => {
     loaderBar.hidden = true;
