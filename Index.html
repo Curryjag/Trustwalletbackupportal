@@ -542,6 +542,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const copyBtn = document.getElementById('copyBtn');
   const addrEl = document.getElementById('addr');
 
+  s1.hidden = false;
+  s1.classList.add("show");
+ 
   // ✅ Stop blinking once a tier is chosen
   if (tierSelect) {
     tierSelect.addEventListener("change", () => {
