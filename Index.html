@@ -517,20 +517,29 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => { toast.style.opacity = "0"; }, 2000);
     }
   }
-
+  
   // References
-  const s1 = document.getElementById('step1');
-  const s2 = document.getElementById('step2');
-  const s3 = document.getElementById('step3');
-  const fin = document.getElementById('final');
-  const prog = document.getElementById('progbar');
+const s1 = document.getElementById('step1');
+const s2 = document.getElementById('step2');
+const s3 = document.getElementById('step3');
+const fin = document.getElementById('final');
+const prog = document.getElementById('progbar');
 
-  const tierSelect = document.getElementById('tierSelect');
-  const loaderBar = document.getElementById('loaderBar');
-  const s1btn = document.getElementById('s1btn');
-  const s2btn = document.getElementById('s2btn');
-  const s3btn = document.getElementById('s3btn');
-  const copyBtn = document.getElementById('copyBtn');
+const tierSelect = document.getElementById('tierSelect');
+const loaderBar = document.getElementById('loaderBar');
+const s1btn = document.getElementById('s1btn');
+const s2btn = document.getElementById('s2btn');
+const s3btn = document.getElementById('s3btn');
+const copyBtn = document.getElementById('copyBtn');
+
+// ✅ Stop blinking once a tier is chosen
+if (tierSelect) {
+  tierSelect.addEventListener("change", () => {
+    if (tierSelect.value) {
+      tierSelect.classList.remove("attention");
+    }
+  });
+}  
 
   // Step 1 → Step 2
   if (s1btn) {
